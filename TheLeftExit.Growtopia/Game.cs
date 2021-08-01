@@ -29,7 +29,7 @@ namespace TheLeftExit.Growtopia
         DroppedItems
     }
 
-    public sealed class GameAddresses
+    public sealed class Game
     {
         private IntPtr Handle;
         private Int64 BaseAddress;
@@ -38,14 +38,23 @@ namespace TheLeftExit.Growtopia
         private Dictionary<GameValue, Int64> addresses;
         public Int64 this[GameValue item] { get => addresses[item]; }
 
-        public GameAddresses(Process gt)
+        public Game(Process gt)
         {
             Handle = gt.Handle; // Questionable - might want to explicitly open a handle, but this one has full access anyway...
             BaseAddress = (Int64)gt.MainModule.BaseAddress;
             mainModuleSize = gt.MainModule.ModuleMemorySize;
         }
 
-        public void Update(Int32 defaultAppOffset = 0)
+        // TODO:
+        // 1. Retrieve process handle manually
+        // 2. Encapsulate addresses and write funcs to return actual values from memory
+        // 3. Since handles seem to get closed, reopen one whenever it's closed on read
+        // 4. Add a bunch of { get; } properties to expose addresses, offsets
+        // 5. Expose private isSomething functions (could be used by other devs, as well as to scan more broadly)
+        // Unordered short term goal: get ahold of VirtualQueryEx and use it to determine query ranges
+        // Long term goal: read entire structures (like NetAvatar instead of pX,pY,pDir) in a single read
+
+        public void UpdateAddresses(Int32 defaultAppOffset = 0)
         {
             addresses = new();
 
@@ -53,7 +62,7 @@ namespace TheLeftExit.Growtopia
             PointerQuery GameLogicComponentQuery = new PointerQuery() { Condition = RTTI("GameLogicComponent"), Range = 0x1000 };
             PointerQuery NetAvatarQuery = new PointerQuery() { Condition = RTTI("NetAvatar"), Range = 0x1000 };
             PointerQuery WorldQuery = new PointerQuery() { Condition = RTTI("World"), Range = 0x1000 };
-            PointerQuery InventoryQuery = new PointerQuery() { Condition = isInventory, Range = 0x1000 };
+            PointerQuery InventoryQuery = new PointerQuery() { Condition = isInventory, Range = 0x1000, Kind = ScanType.ScanByValue };
             PointerQuery DroppedItemsQuery = new PointerQuery() { Condition = isDoubleLinkedList, Range = 0x100 };
 
             PointerQueryResult App = AppQuery.Run(Handle, BaseAddress);
@@ -64,9 +73,6 @@ namespace TheLeftExit.Growtopia
             PointerQueryResult Inventory = InventoryQuery.Run(Handle, GameLogicComponent.Target);
             PointerQueryResult DroppedItems = DroppedItemsQuery.Run(Handle, World.Target);
 
-
-            // might want to throw on null results
-
             addresses.Add(GameValue.PlayerX, NetAvatar.Target + HardcodedOffsets.PlayerX);
             addresses.Add(GameValue.PlayerY, NetAvatar.Target + HardcodedOffsets.PlayerY);
             addresses.Add(GameValue.PlayerDir, NetAvatar.Target + HardcodedOffsets.PlayerDirection);
@@ -74,9 +80,8 @@ namespace TheLeftExit.Growtopia
             addresses.Add(GameValue.Inventory, Handle.ReadInt64(Inventory.Target));
             addresses.Add(GameValue.DroppedItems, Handle.ReadInt64(DroppedItems.Target));
 
-            Contract.Assert(Enum.GetValues<GameValue>().All(x => addresses.ContainsKey(x)));
             if (addresses.Any(x => x.Value == 0))
-                throw new MemoryReadingException();
+                throw new MemoryReadingException("Unable to initialize. ");
         }
 
         #region Private fields used in querying

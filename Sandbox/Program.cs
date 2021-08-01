@@ -23,9 +23,12 @@ namespace Sandbox
         public static void Main(string[] args)
         {
 
-            var b = RTPACK.Decode(itempath);
+            var gt = Process.GetProcessesByName("Growtopia").First();
 
-            b.Save(pickup);
+            var ga = new Game(gt);
+            ga.UpdateAddresses();
+
+            var res = ga[GameValue.DroppedItems];
             
             ;
 
