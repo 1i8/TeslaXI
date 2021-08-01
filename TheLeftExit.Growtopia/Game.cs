@@ -81,7 +81,7 @@ namespace TheLeftExit.Growtopia
             addresses.Add(GameValue.DroppedItems, Handle.ReadInt64(DroppedItems.Target));
 
             if (addresses.Any(x => x.Value == 0))
-                throw new MemoryReadingException("Unable to initialize. ");
+                throw new MemoryReadingException("Unable to initialize.");
         }
 
         #region Private fields used in querying
