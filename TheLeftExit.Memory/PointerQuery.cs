@@ -40,7 +40,7 @@ namespace TheLeftExit.Memory.Queries
         /// <summary>
         /// First offset to check.
         /// </summary>
-        public Int32 Default { get; init; } = 0;
+        public Int32 Default { get; set; } = 0;
         /// <summary>
         /// Whether the range contains the structure itself, or a pointer to it.<br/>Default: true.
         /// </summary>

@@ -21,10 +21,10 @@ This project is [unlicensed](https://unlicense.org/). Feel free to use any parts
 ## Current progress
 Done:
  - Memory reading/querying API (`TheLeftExit.Memory`)
- - Proof-of-concept version of a dynamic offset generator (`TheLeftExit.Growtopia.GameAddresses`)
+ - Transcription of Growtopia's object model into C# (`TheLeftExit.Growtopia.Classes` namespace - all you'd have to do is create an instance of `Growtopia` and follow Intellisense)
  - `RTPACK` and `items.dat` decoder API
  
 To do:
- - API encapsulating `GameAddresses` to provide game information directly
+ - Expand the object model
  - The entirety of the farmbot (WPF interface, resource caching, bot logic)
  - User-friendly items.dat explorer (property display, filtering)
