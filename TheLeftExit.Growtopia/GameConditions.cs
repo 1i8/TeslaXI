@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheLeftExit.Memory.Queries;
-using TheLeftExit.Memory;
-using TheLeftExit.Memory.RTTI;
+using TheLeftExit.Growtopia.Native;
 
 namespace TheLeftExit.Growtopia
 {
