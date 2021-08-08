@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLeftExit.Memory.RTTI
+namespace TheLeftExit.Growtopia.Native
 {
     public static class RTTIMethods
     {
