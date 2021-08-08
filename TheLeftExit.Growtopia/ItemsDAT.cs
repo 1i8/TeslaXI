@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLeftExit.Growtopia.Decoding
+namespace TheLeftExit.Growtopia
 {
     public static class ItemsDAT
     {

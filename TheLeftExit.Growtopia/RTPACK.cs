@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLeftExit.Growtopia.Decoding
+namespace TheLeftExit.Growtopia
 {
     public static class RTPACK
     {

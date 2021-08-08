@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TheLeftExit.Growtopia.Native
+namespace TheLeftExit.Memory.Queries
 {
     public enum ScanType
     {
@@ -40,9 +40,9 @@ namespace TheLeftExit.Growtopia.Native
         /// <summary>
         /// First offset to check.
         /// </summary>
-        public Int32 Default { get; set; } = 0;
+        public Int32 Default { get; init; } = 0;
         /// <summary>
-        /// The way values are located and returned.<br/>Default: ScanByRefReturnValue.
+        /// Whether the range contains the structure itself, or a pointer to it.<br/>Default: true.
         /// </summary>
         public ScanType Kind { get; init; } = ScanType.ScanByRefReturnValue;
 
