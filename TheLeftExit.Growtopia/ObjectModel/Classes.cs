@@ -12,10 +12,10 @@ using static TheLeftExit.Growtopia.ObjectModel.QueryConditions;
 
 namespace TheLeftExit.Growtopia.ObjectModel
 {
-    public class Growtopia : GameClass // It's not exactly one, but the inherited class has some nice features
+    public class GrowtopiaGame : GameClass // It's not exactly one, but the inherited class has some nice features
     {
         private static bool queried = false;
-        public Growtopia(Int32 processId, Int32 appOffset = -1)
+        public GrowtopiaGame(Int32 processId, Int32 appOffset = -1)
         {
             if (appOffset != -1)
                 AppQuery.Default = appOffset;

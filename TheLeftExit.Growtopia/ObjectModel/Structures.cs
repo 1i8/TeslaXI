@@ -51,5 +51,7 @@ namespace TheLeftExit.Growtopia.ObjectModel
             TicksPassed = handle.ReadInt32(handle.ReadInt64(address + 0x28) + 0x74);
         }
         public static WorldTile Constructor(IntPtr handle, Int64 address) => new WorldTile(handle, address);
+
+        public bool IsEmpty { get => (Foreground | Background) == 0; }
     }
 }

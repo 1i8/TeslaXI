@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.Growtopia", "TheLeftExit.Growtopia\TheLeftExit.Growtopia.csproj", "{7AF6778E-C198-412F-BB5D-83200AC83D51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheLeftExit.TeslaX", "TheLeftExit.TeslaX\TheLeftExit.TeslaX.csproj", "{CADD13B7-220D-4C38-AB0C-F3B0BECFB828}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7AF6778E-C198-412F-BB5D-83200AC83D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AF6778E-C198-412F-BB5D-83200AC83D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AF6778E-C198-412F-BB5D-83200AC83D51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CADD13B7-220D-4C38-AB0C-F3B0BECFB828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CADD13B7-220D-4C38-AB0C-F3B0BECFB828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CADD13B7-220D-4C38-AB0C-F3B0BECFB828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CADD13B7-220D-4C38-AB0C-F3B0BECFB828}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,7 @@ using System.Threading;
 using TheLeftExit.Growtopia;
 using TheLeftExit.Growtopia.ObjectModel;
 using TheLeftExit.Growtopia.Native;
+using TheLeftExit.TeslaX;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -29,9 +30,11 @@ namespace Sandbox
 
             //var s = p.Handle.GetRTTIClassNames64(0x1a4540f61c0);
 
-            Growtopia g = new Growtopia(p.Id, 0xA04130);
+            GrowtopiaGame g = new GrowtopiaGame(p.Id, 0xA04130);
 
-            uint A = 65, D = 68, Space = 32, W = 87;
+            TeslaBot bot = new TeslaBot(p.Id);
+
+            bot.Debug(x => Console.WriteLine(x), CancellationToken.None);
 
             while (g.App.GameLogicComponent.NetAvatar.Position.Y > 32)
             {
@@ -47,22 +50,25 @@ namespace Sandbox
                 }
                 if (toPunchLeft)
                 {
-                    w.HoldKeyAsync(A, 1).Wait();
+                    w.HoldKeyAsync(VK.A, 1).Wait();
                     Thread.Sleep(200);
-                    w.HoldKeyAsync(Space, 1).Wait();
+                    w.HoldKeyAsync(VK.Space, 1).Wait();
                     Thread.Sleep(400);
                 }
                 if (toPunchRight)
                 {
-                    w.HoldKeyAsync(D, 1).Wait();
+                    w.HoldKeyAsync(VK.D, 1).Wait();
                     Thread.Sleep(200);
-                    w.HoldKeyAsync(Space, 1).Wait();
+                    w.HoldKeyAsync(VK.Space, 1).Wait();
                     Thread.Sleep(400);
                 }
-                w.HoldKeyAsync(W, 50).Wait();
+                w.HoldKeyAsync(VK.W, 50).Wait();
                 Thread.Sleep(660);
                 //break;
             }
+
+            Console.ReadKey();
+            Main(null);
 
             /*using(var s = File.OpenRead(itempath))
             {

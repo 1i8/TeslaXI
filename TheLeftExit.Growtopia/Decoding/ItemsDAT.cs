@@ -19,10 +19,10 @@ namespace TheLeftExit.Growtopia.Decoding
             return Encoding.UTF8.GetString(buffer);
         }
 
-        public static IEnumerable<ItemDefinition> Decode(String filename)
+        public static ItemDefinition[] Decode(String filename)
         {
             using (Stream stream = File.OpenRead(filename))
-                return DecodeStream(stream);
+                return DecodeStream(stream).ToArray();
         }
 
         private static IEnumerable<ItemDefinition> DecodeStream(Stream stream)

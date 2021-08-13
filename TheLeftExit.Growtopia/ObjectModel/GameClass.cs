@@ -14,7 +14,7 @@ using System.Collections;
 namespace TheLeftExit.Growtopia.ObjectModel
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class QueriedNestedClassAttribute : Attribute { }
+    internal class QueriedNestedClassAttribute : Attribute { }
 
     // Native object model transcribed to C#. Example usage: Growtopia.App.GameLogicComponent.NetAvatar.Position. Neat, isn't it?
     // Yes, this spawns an inadequate amount of short-lived classes and kills GC if something nested is accessed directly too often.
@@ -60,7 +60,7 @@ namespace TheLeftExit.Growtopia.ObjectModel
         // Maybe even create a separate accessing/querying/caching class for each nested class member.
         // I'll look into that later, but right now it seems like something that'll make the code harder to manage.
         // Each class is only being reflected once per execution, so performance doesn't tank.
-        protected void FindMemberOffsets()
+        protected internal void FindMemberOffsets()
         {
             Type gameClass = this.GetType();
 
@@ -100,7 +100,7 @@ namespace TheLeftExit.Growtopia.ObjectModel
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public GameStructConstructor<T> Constructor { get; init; }
+        internal GameStructConstructor<T> Constructor { get; init; }
 
         public Int32 Count => Handle.ReadInt32(Address + 0x08);
     }

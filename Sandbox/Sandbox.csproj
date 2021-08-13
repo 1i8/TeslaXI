@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TheLeftExit.Growtopia\TheLeftExit.Growtopia.csproj" />
+    <ProjectReference Include="..\TheLeftExit.TeslaX\TheLeftExit.TeslaX.csproj" />
   </ItemGroup>
 
 </Project>

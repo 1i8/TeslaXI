@@ -16,13 +16,13 @@ namespace TheLeftExit.Growtopia.Native
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, uint wParam, uint lParam);
 
-        public static void SendKey(this IntPtr handle, uint key, bool down)
+        public static void SendKey(this IntPtr handle, VK key, bool down)
         {
             if (handle != IntPtr.Zero)
-                SendMessage(handle, down ? WM_KEYDOWN : WM_KEYUP, key, 0);
+                SendMessage(handle, down ? WM_KEYDOWN : WM_KEYUP, (uint)key, 0);
         }
 
-        public static async Task HoldKeyAsync(this IntPtr handle, uint key, int duration)
+        public static async Task HoldKeyAsync(this IntPtr handle, VK key, int duration)
         {
             handle.SendKey(key, true);
             await Task.Delay(duration);

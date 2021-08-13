@@ -7,7 +7,7 @@ using TheLeftExit.Growtopia.Native;
 
 namespace TheLeftExit.Growtopia.ObjectModel
 {
-    public static class QueryConditions
+    internal static class QueryConditions
     {
         public static bool IsInventory(IntPtr h, Int64 a)
         {
