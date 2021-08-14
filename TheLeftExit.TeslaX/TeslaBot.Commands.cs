@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using TheLeftExit.Growtopia.ObjectModel;
 
+using static TheLeftExit.Growtopia.GameWindow;
+
 namespace TheLeftExit.TeslaX
 {
     public partial class TeslaBot
@@ -11,6 +13,7 @@ namespace TheLeftExit.TeslaX
         {
             NetAvatar netAvatar = game.App.GameLogicComponent.NetAvatar;
             WorldTileMap worldTileMap = game.App.GameLogicComponent.World.WorldTileMap;
+            
             while (!token.IsCancellationRequested)
             {
                 Thread.Sleep(10);
@@ -23,6 +26,46 @@ namespace TheLeftExit.TeslaX
                 Int32 distance = PunchingDistance(netAvatar.Position.X, info.X, netAvatar.FacingLeft);
                 log($"Detected: {items[info.Tile.Foreground].Name} | {items[info.Tile.Background].Name} (distance: {distance}).");
             }
+        }
+
+        public void Break(Action<String> log, Func<WorldTile, bool> condition, CancellationToken token)
+        {
+            NetAvatar netAvatar = game.App.GameLogicComponent.NetAvatar;
+            WorldTileMap worldTileMap = game.App.GameLogicComponent.World.WorldTileMap;
+
+            MovementManager movementManager = new(100, 150);
+            PunchManager punchManager = new();
+
+            while (!token.IsCancellationRequested)
+            {
+                var info = BlockAhead(netAvatar, worldTileMap);
+                if (info.Tile.IsEmpty)
+                {
+                    log("Finished: no blocks in range");
+                    break;
+                }
+                Int32 distance = PunchingDistance(netAvatar.Position.X, info.X, netAvatar.FacingLeft);
+                if(distance > Range)
+                {
+                    log("Finished: no blocks in range");
+                    break;
+                }
+                if (!condition(info.Tile))
+                {
+                    log("Finished: target does not match the condition.");
+                    break;
+                }
+
+                bool? toMove = movementManager.Update(distance > TargetDistance);
+                if (toMove.HasValue)
+                    window.SendKey(netAvatar.FacingLeft ? LeftKey : RightKey, toMove.Value);
+                bool? toPunch = punchManager.Update();
+                if (toPunch.HasValue)
+                    window.SendKey(PunchKey, toPunch.Value);
+            }
+
+            window.SendKey(netAvatar.FacingLeft ? LeftKey : RightKey, false);
+            window.SendKey(PunchKey, false);
         }
     }
 }

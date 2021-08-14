@@ -21,12 +21,5 @@ namespace TheLeftExit.Growtopia.Native
             if (handle != IntPtr.Zero)
                 SendMessage(handle, down ? WM_KEYDOWN : WM_KEYUP, (uint)key, 0);
         }
-
-        public static async Task HoldKeyAsync(this IntPtr handle, VK key, int duration)
-        {
-            handle.SendKey(key, true);
-            await Task.Delay(duration);
-            handle.SendKey(key, false);
-        }
     }
 }

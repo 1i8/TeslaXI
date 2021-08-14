@@ -34,8 +34,11 @@ namespace Sandbox
 
             TeslaBot bot = new TeslaBot(p.Id);
 
-            bot.Debug(x => Console.WriteLine(x), CancellationToken.None);
+            // Second parameter takes WorldObject and returns bool. Use it to filter what blocks you want broken.
+            // To fine-tune movement, change properties in TeslaBot.cs.
+            bot.Break(x => Console.WriteLine(x), x => true, CancellationToken.None);
 
+            /*
             while (g.App.GameLogicComponent.NetAvatar.Position.Y > 32)
             {
                 bool toPunchLeft = false, toPunchRight = false;
@@ -66,9 +69,11 @@ namespace Sandbox
                 Thread.Sleep(660);
                 //break;
             }
-
+            
             Console.ReadKey();
             Main(null);
+
+            */
 
             /*using(var s = File.OpenRead(itempath))
             {
