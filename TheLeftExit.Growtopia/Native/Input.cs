@@ -21,5 +21,14 @@ namespace TheLeftExit.Growtopia.Native
             if (handle != IntPtr.Zero)
                 SendMessage(handle, down ? WM_KEYDOWN : WM_KEYUP, (uint)key, 0);
         }
+
+        [DllImport("USER32.DLL")]
+        public static extern bool SetWindowText(this IntPtr hWnd, string lpString);
+
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(int vKey);
+
+        public static bool IsKeyDown(this VK key) =>
+            (GetAsyncKeyState((Int32)key) & 0x8000) != 0;
     }
 }

@@ -9,6 +9,8 @@ namespace TheLeftExit.TeslaX
 {
     public partial class TeslaBot
     {
+        public WorldTile GetTileAhead() => BlockAhead(game.App.GameLogicComponent.NetAvatar, game.App.GameLogicComponent.World.WorldTileMap).Tile;
+
         public void Debug(Action<String> log, CancellationToken token)
         {
             NetAvatar netAvatar = game.App.GameLogicComponent.NetAvatar;
@@ -24,7 +26,7 @@ namespace TheLeftExit.TeslaX
                     continue;
                 }
                 Int32 distance = PunchingDistance(netAvatar.Position.X, info.X, netAvatar.FacingLeft);
-                log($"Detected: {items[info.Tile.Foreground].Name} | {items[info.Tile.Background].Name} (distance: {distance}).");
+                log($"Detected: {WorldTileToString(info.Tile)} (distance: {distance}).");
             }
         }
 
@@ -64,7 +66,8 @@ namespace TheLeftExit.TeslaX
                     window.SendKey(PunchKey, toPunch.Value);
             }
 
-            window.SendKey(netAvatar.FacingLeft ? LeftKey : RightKey, false);
+            window.SendKey(LeftKey, false);
+            window.SendKey(RightKey, false);
             window.SendKey(PunchKey, false);
         }
     }

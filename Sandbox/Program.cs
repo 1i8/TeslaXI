@@ -18,27 +18,54 @@ namespace Sandbox
 {
     class Program
     {
-        static String itempath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Growtopia", "game", "tiles_page1.rttex");
+        String itempath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Growtopia", "game", "tiles_page1.rttex");
 
-        static String pickup = Path.Combine("C:", "pickup", "tiles_page1.bmp");
+        String pickup = Path.Combine("C:", "pickup", "tiles_page1.bmp");
 
         public static void Main(string[] args)
         {
+            Console.WriteLine("TeslaXI console demo. Initializing...");
             var p = Process.GetProcessesByName("Growtopia").First();
+            IntPtr wh = p.MainWindowHandle;
+            GrowtopiaGame g = new GrowtopiaGame(p.Id, 0xA04130);
+            TeslaBot bot = new TeslaBot(p.Id);
+            Console.WriteLine("TeslaBot instantiated. Please check Growtopia's window title for instructions.");
+            Console.WriteLine("To properly close the app, press Ctrl+C while the bot isn't running.");
+
+            wh.SetWindowText("TeslaXI is running. Press Ctrl+X to start breaking the block in front of you.");
+
+
+            while (true)
+            {
+                while (true)
+                {
+                    if (VK.Control.IsKeyDown() && VK.X.IsKeyDown())
+                        break;
+                    if(VK.Control.IsKeyDown() && VK.C.IsKeyDown())
+                    {
+                        wh.SetWindowText("Growtopia");
+                        Process.GetCurrentProcess().Kill();
+                    }
+                    Thread.Sleep(10);
+                }
+
+                WorldTile tile = bot.GetTileAhead();
+
+                wh.SetWindowText($"Breaking: {bot.WorldTileToString(tile)}");
+                bot.Break(x => wh.SetWindowText(x),
+                    x => tile.Foreground != 0 && tile.Foreground == x.Foreground || tile.Background != 0 && tile.Background == x.Background,
+                    CancellationToken.None); // 5990
+                
+            }
+        }
+
+        public void HarvestAVerticalRowOfATMsWithRayman()
+        {
+            var p = Process.GetProcessesByName("Growtopia").First();
+            GrowtopiaGame g = new GrowtopiaGame(p.Id, 0xA04130);
 
             var w = p.MainWindowHandle;
 
-            //var s = p.Handle.GetRTTIClassNames64(0x1a4540f61c0);
-
-            GrowtopiaGame g = new GrowtopiaGame(p.Id, 0xA04130);
-
-            TeslaBot bot = new TeslaBot(p.Id);
-
-            // Second parameter takes WorldObject and returns bool. Use it to filter what blocks you want broken.
-            // To fine-tune movement, change properties in TeslaBot.cs.
-            bot.Break(x => Console.WriteLine(x), x => true, CancellationToken.None);
-
-            /*
             while (g.App.GameLogicComponent.NetAvatar.Position.Y > 32)
             {
                 bool toPunchLeft = false, toPunchRight = false;
@@ -53,35 +80,25 @@ namespace Sandbox
                 }
                 if (toPunchLeft)
                 {
-                    w.HoldKeyAsync(VK.A, 1).Wait();
+                    //w.HoldKeyAsync(VK.A, 1).Wait();
                     Thread.Sleep(200);
-                    w.HoldKeyAsync(VK.Space, 1).Wait();
+                    //w.HoldKeyAsync(VK.Space, 1).Wait();
                     Thread.Sleep(400);
                 }
                 if (toPunchRight)
                 {
-                    w.HoldKeyAsync(VK.D, 1).Wait();
+                    //w.HoldKeyAsync(VK.D, 1).Wait();
                     Thread.Sleep(200);
-                    w.HoldKeyAsync(VK.Space, 1).Wait();
+                    //w.HoldKeyAsync(VK.Space, 1).Wait();
                     Thread.Sleep(400);
                 }
-                w.HoldKeyAsync(VK.W, 50).Wait();
+                //w.HoldKeyAsync(VK.W, 50).Wait();
                 Thread.Sleep(660);
                 //break;
             }
-            
+
             Console.ReadKey();
-            Main(null);
-
-            */
-
-            /*using(var s = File.OpenRead(itempath))
-            {
-                var d = new ItemDecoder(s);
-                String query = "Wizard's Staff"
-                var res = d.Decode().Where(x => x.Name == query).First().ItemID.ToString("X4");
-                ;
-            }*/
+            HarvestAVerticalRowOfATMsWithRayman();
         }
     }
 }
