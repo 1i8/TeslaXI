@@ -16,16 +16,17 @@ The goal of the project is to allow developers to create **memory-based** traine
  - Decoder for items.dat transcribed from [GrowtopiaNoobs/Growtopia_ItemsDecoder](https://github.com/GrowtopiaNoobs/Growtopia_ItemsDecoder).
  - Decoder for RTTEX files transcribed from [Nenkai/RTPackConverter](https://github.com/Nenkai/RTPackConverter).
  
-This project is [unlicensed](https://unlicense.org/). Feel free to use any parts of it in your own projects - that's mostly what it's for.
+This project is [unlicensed](https://unlicense.org/). Feel free to use any parts of it in your own projects.
 
 ## Current progress
 Done:
  - Memory reading/querying API (`TheLeftExit.Growtopia.Native`)
  - Transcription of Growtopia's object model into C# (`TheLeftExit.Growtopia.ObjectModel` namespace - all you'd have to do is create an instance of `Growtopia` and follow IntelliSense)
  - `RTPACK` and `items.dat` decoder API
+ - Simple user-friendly bot implementation (`TheLeftExit.TeslaX.Headless`)
  
 To do:
- - Implement window input API and encapsulate it in something like a `GameWindow` class
  - Expand the object model
- - The entirety of the farmbot (WPF interface, resource caching, bot logic)
+ - Optimize WorldTileMap to support optionally loading the entire world
+ - GUI for the bot
  - User-friendly items.dat explorer (property display, filtering)

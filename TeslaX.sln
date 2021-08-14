@@ -1,13 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31521.260
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.csproj", "{7409622F-632E-4897-85F5-9D70F1DEF7A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.TeslaX.Headless", "TheLeftExit.TeslaX.Headless\TheLeftExit.TeslaX.Headless.csproj", "{7409622F-632E-4897-85F5-9D70F1DEF7A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.Growtopia", "TheLeftExit.Growtopia\TheLeftExit.Growtopia.csproj", "{7AF6778E-C198-412F-BB5D-83200AC83D51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheLeftExit.TeslaX", "TheLeftExit.TeslaX\TheLeftExit.TeslaX.csproj", "{CADD13B7-220D-4C38-AB0C-F3B0BECFB828}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.TeslaX", "TheLeftExit.TeslaX\TheLeftExit.TeslaX.csproj", "{CADD13B7-220D-4C38-AB0C-F3B0BECFB828}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -14,7 +14,7 @@ using System.Drawing;
 
 using System.Windows.Input;
 
-namespace Sandbox
+namespace TheLeftExit.TeslaX.Headless
 {
     class Program
     {
@@ -59,6 +59,7 @@ namespace Sandbox
             }
         }
 
+        // My personal ATM harvester, don't mind it here.
         public void HarvestAVerticalRowOfATMsWithRayman()
         {
             var p = Process.GetProcessesByName("Growtopia").First();
@@ -80,7 +81,7 @@ namespace Sandbox
                 }
                 if (toPunchLeft)
                 {
-                    //w.HoldKeyAsync(VK.A, 1).Wait();
+                    //w.HoldKeyAsync(VK.A, 1).Wait(); - i removed holdkeyasync and never implemented a replacement lol
                     Thread.Sleep(200);
                     //w.HoldKeyAsync(VK.Space, 1).Wait();
                     Thread.Sleep(400);
