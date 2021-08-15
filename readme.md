@@ -24,9 +24,9 @@ Done:
  - Transcription of Growtopia's object model into C# (`TheLeftExit.Growtopia.ObjectModel` namespace - all you'd have to do is create an instance of `Growtopia` and follow IntelliSense)
  - `RTPACK` and `items.dat` decoder API
  - Simple user-friendly bot implementation (`TheLeftExit.TeslaX.Headless`)
+ - User-friendly items.dat explorer (property display, filtering)
  
 To do:
  - Expand the object model
  - Optimize WorldTileMap to support optionally loading the entire world
  - GUI for the bot
- - User-friendly items.dat explorer (property display, filtering)

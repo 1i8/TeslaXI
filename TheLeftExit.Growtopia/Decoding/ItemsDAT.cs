@@ -92,45 +92,45 @@ namespace TheLeftExit.Growtopia.Decoding
 
     public class ItemDefinition
     {
-        public Int32 ItemID { get; set; }
-        public Byte EditableType { get; set; }
-        public Byte ItemCategory { get; set; }
-        public Byte ActionType { get; set; }
-        public Byte HitSoundType { get; set; }
-        public String Name { get; set; }
-        public String Texture { get; set; }
-        public Int32 TextureHash { get; set; }
-        public Byte ItemKind { get; set; }
-        public Int32 val1 { get; set; }
-        public Byte TextureX { get; set; }
-        public Byte TextureY { get; set; }
-        public Byte SpreadType { get; set; }
-        public Byte IsStripeyWallpaper { get; set; }
-        public Byte CollisionType { get; set; }
-        public Byte BreakHits { get; set; }
-        public Int32 DropChance { get; set; }
-        public Byte ClothingType { get; set; }
-        public Int16 Rarity { get; set; }
-        public Byte MaxAmount { get; set; }
-        public String ExtraFile { get; set; }
-        public Int32 ExtraFileHash { get; set; }
-        public Int32 AudioVolume { get; set; }
-        public String PetName { get; set; }
-        public String PetPrefix { get; set; }
-        public String PetSuffix { get; set; }
-        public String PetAbility { get; set; }
-        public Byte SeedBase { get; set; }
-        public Byte SeedOverlay { get; set; }
-        public Byte TreeBase { get; set; }
-        public Byte TreeLeaves { get; set; }
-        public Int32 SeedColor { get; set; }
-        public Int32 SeedOverlayColor { get; set; }
-        public Int32 GrowTime { get; set; }
-        public Int16 val2 { get; set; }
-        public Int16 IsRayman { get; set; }
-        public String ExtraOptions { get; set; }
-        public String Texture2 { get; set; }
-        public String ExtraOptions2 { get; set; }
-        public String PunchOptions { get; set; }
+        public Int32 ItemID { get; internal set; }
+        public Byte EditableType { get; internal set; }
+        public Byte ItemCategory { get; internal set; }
+        public Byte ActionType { get; internal set; }
+        public Byte HitSoundType { get; internal set; }
+        public String Name { get; internal set; }
+        public String Texture { get; internal set; }
+        public Int32 TextureHash { get; internal set; }
+        public Byte ItemKind { get; internal set; }
+        public Int32 val1 { get; internal set; }
+        public Byte TextureX { get; internal set; }
+        public Byte TextureY { get; internal set; }
+        public Byte SpreadType { get; internal set; }
+        public Byte IsStripeyWallpaper { get; internal set; }
+        public Byte CollisionType { get; internal set; }
+        public Byte BreakHits { get; internal set; }
+        public Int32 DropChance { get; internal set; }
+        public Byte ClothingType { get; internal set; }
+        public Int16 Rarity { get; internal set; }
+        public Byte MaxAmount { get; internal set; }
+        public String ExtraFile { get; internal set; }
+        public Int32 ExtraFileHash { get; internal set; }
+        public Int32 AudioVolume { get; internal set; }
+        public String PetName { get; internal set; }
+        public String PetPrefix { get; internal set; }
+        public String PetSuffix { get; internal set; }
+        public String PetAbility { get; internal set; }
+        public Byte SeedBase { get; internal set; }
+        public Byte SeedOverlay { get; internal set; }
+        public Byte TreeBase { get; internal set; }
+        public Byte TreeLeaves { get; internal set; }
+        public Int32 SeedColor { get; internal set; }
+        public Int32 SeedOverlayColor { get; internal set; }
+        public Int32 GrowTime { get; internal set; }
+        public Int16 val2 { get; internal set; }
+        public Int16 IsRayman { get; internal set; }
+        public String ExtraOptions { get; internal set; }
+        public String Texture2 { get; internal set; }
+        public String ExtraOptions2 { get; internal set; }
+        public String PunchOptions { get; internal set; }
     }
 }

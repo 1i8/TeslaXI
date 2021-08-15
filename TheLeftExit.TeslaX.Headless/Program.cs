@@ -49,9 +49,20 @@ namespace TheLeftExit.TeslaX.Headless
                     Thread.Sleep(10);
                 }
 
-                WorldTile tile = bot.GetTileAhead();
+                WorldTile tile;
+
+                try
+                {
+                    tile = bot.GetTileAhead();
+                }
+                catch (ProcessMemoryException e)
+                {
+                    wh.SetWindowText(e.Message);
+                    continue;
+                }
 
                 wh.SetWindowText($"Breaking: {bot.WorldTileToString(tile)}");
+                
                 bot.Break(x => wh.SetWindowText(x),
                     x => tile.Foreground != 0 && tile.Foreground == x.Foreground || tile.Background != 0 && tile.Background == x.Background,
                     CancellationToken.None); // 5990
