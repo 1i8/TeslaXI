@@ -50,18 +50,20 @@ namespace TheLeftExit.Itemsplorer
             this.listView1.Location = new System.Drawing.Point(12, 70);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(368, 363);
-            this.listView1.TabIndex = 3;
+            this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView1_ItemSelectionChanged);
             // 
             // textBox1
             // 
+            this.textBox1.AcceptsReturn = true;
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(12, 12);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(368, 23);
-            this.textBox1.TabIndex = 2;
+            this.textBox1.TabIndex = 0;
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // button1
             // 
@@ -82,7 +84,7 @@ namespace TheLeftExit.Itemsplorer
             this.propertyGrid1.Location = new System.Drawing.Point(386, 12);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(288, 421);
-            this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.TabIndex = 3;
             this.propertyGrid1.SelectedGridItemChanged += new System.Windows.Forms.SelectedGridItemChangedEventHandler(this.propertyGrid1_SelectedGridItemChanged);
             // 
             // statusStrip1
@@ -100,8 +102,8 @@ namespace TheLeftExit.Itemsplorer
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(22, 17);
-            this.toolStripStatusLabel1.Text = "Hi!";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(328, 17);
+            this.toolStripStatusLabel1.Text = "Select a property, type in your search query, and click Search.";
             // 
             // toolStripDropDownButton1
             // 

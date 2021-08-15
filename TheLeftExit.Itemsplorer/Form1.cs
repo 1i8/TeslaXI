@@ -26,8 +26,6 @@ namespace TheLeftExit.Itemsplorer
 
         private PropertyDescriptor selectedProperty;
 
-
-
         public Form1()
         {
             items = ItemsDAT.Decode(pathToItems);
@@ -36,7 +34,7 @@ namespace TheLeftExit.Itemsplorer
             InitializeComponent();
             this.MinimumSize = new Size(propertyGrid1.Width + 40, 200);
 
-            propertyGrid1.SelectedObject = items.First(x => x.Name == "Sugar Cane");
+            propertyGrid1.SelectedObject = items.First();
         }
 
         private void propertyGrid1_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
@@ -60,11 +58,11 @@ namespace TheLeftExit.Itemsplorer
                 else if (t == typeof(Int32))
                     sres = items.Where(x => (Int32)selectedProperty.GetValue(x) == Int32.Parse(textBox1.Text));
                 else if (t == typeof(String))
-                    sres = items.Where(x => ((String)selectedProperty.GetValue(x)).Contains(textBox1.Text));
+                    sres = items.Where(x => ((String)selectedProperty.GetValue(x)).ToLower().Contains(textBox1.Text.ToLower()));
                 else
                     throw new NotImplementedException("Custom types not supported!");
             }
-            catch (FormatException)
+            catch(FormatException)
             {
                 toolStripStatusLabel1.Text = $"Could not parse \"{textBox1.Text}\" to {t.Name}.";
                 return;
@@ -102,7 +100,9 @@ namespace TheLeftExit.Itemsplorer
         private Bitmap GetTextureFile(String name)
         {
             if (!textureFileCache.ContainsKey(name))
+            {
                 textureFileCache.Add(name, RTPACK.Decode(Path.Combine(pathToTextures, name)));
+            }
             return textureFileCache[name];
         }
         private Bitmap GetTexture(ItemDefinition item)
@@ -141,7 +141,7 @@ namespace TheLeftExit.Itemsplorer
                         y = item.TextureY;
                         break;
                 }
-                finalTextures[item.ItemID] = GetTextureFile(item.Texture).Clone(new Rectangle(x * 32, y * 32, 32, 32), PixelFormat.DontCare);
+                finalTextures[item.ItemID] = GetTextureFile(item.Texture).Clone(new Rectangle(x * 32, y * 32, 32, 32), PixelFormat.Format64bppArgb);
             }
             return finalTextures[item.ItemID];
         }
@@ -149,6 +149,15 @@ namespace TheLeftExit.Itemsplorer
         private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             propertyGrid1.SelectedObject = items.Single(x => x.Name == e.Item.Text);
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                button1.PerformClick();
+                e.Handled = true;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -85,7 +86,7 @@ namespace TheLeftExit.Growtopia.Decoding
                     for (int x = 0; x < Width; x++)
                         Bits[x + y * Width] = (reader.ReadByte()) << 16 | (reader.ReadByte() << 8) | (reader.ReadByte()) | (UsesAlpha ? reader.ReadByte() << 24 : -16777216);
 
-                Bitmap res = buffer.Clone(new Rectangle(Point.Empty, buffer.Size), buffer.PixelFormat);
+                Bitmap res = buffer.Clone(new Rectangle(Point.Empty, buffer.Size), PixelFormat.Format64bppArgb);
 
                 buffer.Dispose();
                 BitsHandle.Free();
