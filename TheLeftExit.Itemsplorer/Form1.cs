@@ -80,7 +80,7 @@ namespace TheLeftExit.Itemsplorer
             }
 
             // 3. Populating ListView.
-            //listView1.LargeImageList?.Images.Clear();
+            listView1.LargeImageList?.Dispose();
             listView1.Clear();
 
             ImageList ilist = new();
@@ -99,10 +99,12 @@ namespace TheLeftExit.Itemsplorer
 
         private Bitmap GetTextureFile(String name)
         {
+            //return RTPACK.Decode(Path.Combine(pathToTextures, name));
             if (!textureFileCache.ContainsKey(name))
             {
                 textureFileCache.Add(name, RTPACK.Decode(Path.Combine(pathToTextures, name)));
             }
+            try { textureFileCache[name].GetHbitmap(); } catch { textureFileCache[name] = RTPACK.Decode(Path.Combine(pathToTextures, name)); }
             return textureFileCache[name];
         }
         private Bitmap GetTexture(ItemDefinition item)
@@ -141,7 +143,7 @@ namespace TheLeftExit.Itemsplorer
                         y = item.TextureY;
                         break;
                 }
-                finalTextures[item.ItemID] = GetTextureFile(item.Texture).Clone(new Rectangle(x * 32, y * 32, 32, 32), PixelFormat.Format64bppArgb);
+                finalTextures[item.ItemID] = GetTextureFile(item.Texture).Clone(new Rectangle(x * 32, y * 32, 32, 32), PixelFormat.Format32bppArgb);
             }
             return finalTextures[item.ItemID];
         }
@@ -158,6 +160,23 @@ namespace TheLeftExit.Itemsplorer
                 button1.PerformClick();
                 e.Handled = true;
             }
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            Int32 id = ((ItemDefinition)propertyGrid1.SelectedObject).ItemID;
+
+            SaveFileDialog sfd = new()
+            {
+                Title = $"Save {items[id].Name} sprite",
+                AddExtension = true,
+                DefaultExt = "png",
+                Filter = "PNG image|*.png"
+            };
+
+            DialogResult res = sfd.ShowDialog();
+            if(res == DialogResult.OK)
+                finalTextures[id].Save(sfd.FileName, ImageFormat.Png);
         }
     }
 }

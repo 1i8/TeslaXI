@@ -80,13 +80,13 @@ namespace TheLeftExit.Growtopia.Decoding
 
                 Int32[] Bits = new Int32[Width * Height];
                 GCHandle BitsHandle = GCHandle.Alloc(Bits, GCHandleType.Pinned);
-                Bitmap buffer = new(Width, Height, Width * 4, System.Drawing.Imaging.PixelFormat.Format32bppArgb, BitsHandle.AddrOfPinnedObject());
+                Bitmap buffer = new(Width, Height, Width * 4, PixelFormat.Format32bppArgb, BitsHandle.AddrOfPinnedObject());
 
                 for (int y = Height - 1; y >= 0; y--)
                     for (int x = 0; x < Width; x++)
                         Bits[x + y * Width] = (reader.ReadByte()) << 16 | (reader.ReadByte() << 8) | (reader.ReadByte()) | (UsesAlpha ? reader.ReadByte() << 24 : -16777216);
 
-                Bitmap res = buffer.Clone(new Rectangle(Point.Empty, buffer.Size), PixelFormat.Format64bppArgb);
+                Bitmap res = buffer.Clone(new Rectangle(Point.Empty, buffer.Size), PixelFormat.Format32bppArgb);
 
                 buffer.Dispose();
                 BitsHandle.Free();
