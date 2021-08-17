@@ -129,6 +129,16 @@ namespace TheLeftExit.Growtopia.ObjectModel
         public PointF CameraPosition => new PointF(Handle.ReadSingle(Address + 0x10), Handle.ReadSingle(Address + 0x14));
         public Single ZoomFactor => Handle.ReadSingle(Address + 0x2C);
         public SizeF ScreenSize => new SizeF(Handle.ReadSingle(Address + 0x38), Handle.ReadSingle(Address + 0x3C));
+        public Rectangle MapBlockToScreen(Int32 x, Int32 y)
+        {
+            PointF camPos = CameraPosition;
+            Single zoomFactor = ZoomFactor;
+            Int32 screenX = (Int32)((x * 32 - camPos.X) * zoomFactor);
+            Int32 screenY = (Int32)((y * 32 - camPos.Y) * zoomFactor);
+            Int32 width = (Int32)(32 * zoomFactor);
+            return new Rectangle(screenX, screenY, width, width);
+        }
+        public Rectangle MapBlockToScreen(Point p) => MapBlockToScreen(p.X, p.Y);
     }
 
     public class NetAvatar : GameClass

@@ -80,7 +80,7 @@ namespace TheLeftExit.Itemsplorer
             }
 
             // 3. Populating ListView.
-            listView1.LargeImageList?.Dispose();
+            //listView1.LargeImageList?.Dispose();
             listView1.Clear();
 
             ImageList ilist = new();
@@ -143,7 +143,7 @@ namespace TheLeftExit.Itemsplorer
                         y = item.TextureY;
                         break;
                 }
-                finalTextures[item.ItemID] = GetTextureFile(item.Texture).Clone(new Rectangle(x * 32, y * 32, 32, 32), PixelFormat.Format32bppArgb);
+                finalTextures[item.ItemID] = Cut32(GetTextureFile(item.Texture), x, y);//.Clone(new Rectangle(x * 32, y * 32, 32, 32), PixelFormat.Format32bppArgb);
             }
             return finalTextures[item.ItemID];
         }
@@ -177,6 +177,17 @@ namespace TheLeftExit.Itemsplorer
             DialogResult res = sfd.ShowDialog();
             if(res == DialogResult.OK)
                 finalTextures[id].Save(sfd.FileName, ImageFormat.Png);
+        }
+
+        public static Bitmap Cut32(Bitmap source, int x, int y)
+        {
+            Bitmap res = new(32, 32);
+
+            for (int i = 0; i < 32; i++)
+                for (int j = 0; j < 32; j++)
+                    res.SetPixel(i, j, source.GetPixel(x * 32 + i, y * 32 + j));
+
+            return res;
         }
     }
 }
