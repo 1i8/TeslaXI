@@ -10,6 +10,9 @@ TeslaXI is two things:
 
 The goal of the project is to allow developers to create **memory-based** trainers/bots/helpers for Growtopia without having to spend time finding game data and constantly updating the offsets. The latter is achieved with **dynamic offset generation** using RTTI data and other memory behavior patterns.
 
+By the way, the library (`TheLeftExit.Growtopia`) is available as a NuGet package.  
+Simply run `Install-Package TheLeftExit.Growtopia` in your package manager to add it as a project reference.
+
 ## Credits
  - Huge thanks to the [**TeslaX Discord Server**](https://discord.gg/Px457A4fh4) for its efforts to decode game memory. Feel free to join if you're interested in helping or learning.
  - Thanks to [**0xD3F**](https://github.com/DefaultO) for continued cooperation in reversing the game.
