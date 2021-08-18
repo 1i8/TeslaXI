@@ -20,6 +20,10 @@ namespace TheLeftExit.Growtopia.ObjectModel
     // Yes, this spawns an inadequate amount of short-lived classes and kills GC if something nested is accessed directly too often.
     // I'm aware that this is not good performance-wise, and generally a terrible coding practice, but it's the compromise I'm making for ease of use.
     // Blame Jeffrey Richter for not advising CLR developers to add structure inheritance.
+
+    /// <summary>
+    /// Base class for any objects transcribed from external class hierarchies.
+    /// </summary>
     public abstract class GameClass
     {
         public IntPtr Handle { get; init; }
@@ -86,6 +90,10 @@ namespace TheLeftExit.Growtopia.ObjectModel
     }
 
     // The closest thing to seamless enumerating of game's double linked lists.
+    /// <summary>
+    /// Linked list of <typeparamref name="T"/> in game memory.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class GameList<T> : GameClass, IEnumerable<T>
     {
         public IEnumerator<T> GetEnumerator()

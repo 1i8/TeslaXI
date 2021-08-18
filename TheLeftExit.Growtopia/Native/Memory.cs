@@ -5,6 +5,9 @@ using System.Text;
 
 namespace TheLeftExit.Growtopia.Native
 {
+    /// <summary>
+    /// Exception thrown by methods in namespace <see cref="TheLeftExit.Growtopia"/>.
+    /// </summary>
     public class ProcessMemoryException : Exception
     {
         public ProcessMemoryException() { }

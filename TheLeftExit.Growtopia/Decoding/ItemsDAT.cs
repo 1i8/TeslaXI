@@ -19,10 +19,25 @@ namespace TheLeftExit.Growtopia.Decoding
             return Encoding.UTF8.GetString(buffer);
         }
 
+        /// <summary>
+        /// Decodes items.dat located at <paramref name="filename"/> to an array of item definitions.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static ItemDefinition[] Decode(String filename)
         {
             using (Stream stream = File.OpenRead(filename))
                 return DecodeStream(stream).ToArray();
+        }
+
+        /// <summary>
+        /// Decodes items.dat stored in <paramref name="stream"/> to an array of item definitions.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static ItemDefinition[] Decode(Stream stream)
+        {
+            return DecodeStream(stream).ToArray();
         }
 
         private static IEnumerable<ItemDefinition> DecodeStream(Stream stream)
@@ -90,6 +105,10 @@ namespace TheLeftExit.Growtopia.Decoding
         }
     }
 
+    /// <summary>
+    /// Information about an item stored in items.dat.<br/>
+    /// Generated with <see cref="ItemsDAT.Decode(String)"/> or <seealso cref="ItemsDAT.Decode(Stream)"/>.
+    /// </summary>
     public class ItemDefinition
     {
         public Int32 ItemID { get; internal set; }

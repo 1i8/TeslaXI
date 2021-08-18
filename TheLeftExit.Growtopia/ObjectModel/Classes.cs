@@ -12,6 +12,9 @@ using static TheLeftExit.Growtopia.ObjectModel.QueryConditions;
 
 namespace TheLeftExit.Growtopia.ObjectModel
 {
+    /// <summary>
+    /// Entry point into game memory.
+    /// </summary>
     public class GrowtopiaGame : GameClass // It's not exactly one, but the inherited class has some nice features
     {
         private static bool queried = false;
@@ -37,6 +40,9 @@ namespace TheLeftExit.Growtopia.ObjectModel
         private static bool AppInitialized;
     }
 
+    /// <summary>
+    /// <c>App</c> class in game memory.
+    /// </summary>
     public class App : GameClass
     {
         [QueriedNestedClass] // App->GameLogicComponent
@@ -46,6 +52,9 @@ namespace TheLeftExit.Growtopia.ObjectModel
         private static bool GameLogicComponentInitialized;
     }
 
+    /// <summary>
+    /// <c>GameLogicComponent</c> class in game memory.
+    /// </summary>
     public class GameLogicComponent : GameClass
     {
         [QueriedNestedClass] // GameLogicComponent->World
@@ -73,6 +82,9 @@ namespace TheLeftExit.Growtopia.ObjectModel
         private static bool InventoryInitialized;
     }
 
+    /// <summary>
+    /// <c>World</c> class in game memory.
+    /// </summary>
     public class World : GameClass
     {
         [QueriedNestedClass] // World->WorldTileMap
@@ -88,6 +100,10 @@ namespace TheLeftExit.Growtopia.ObjectModel
         private static bool WorldObjectMapInitialized;
     }
 
+    /// <summary>
+    /// <c>WorldTileMap</c> class in game memory.<br/>
+    /// Contains current world dimenions and block data.
+    /// </summary>
     public class WorldTileMap : GameClass
     {
         public Int32 Width => Handle.ReadInt32(Address + 0x08);
@@ -106,6 +122,10 @@ namespace TheLeftExit.Growtopia.ObjectModel
         private const Int32 BlockOffset = 0x90;
     }
 
+    /// <summary>
+    /// <c>WorldObjectMap</c> class in game memory.<br/>
+    /// Contains information about dropped items.
+    /// </summary>
     public class WorldObjectMap : GameClass
     {
         [QueriedNestedClass] // WorldObjectMap->[DroppedItems]
@@ -115,6 +135,9 @@ namespace TheLeftExit.Growtopia.ObjectModel
         private static bool DroppedItemsInitialized;
     }
 
+    /// <summary>
+    /// <c>WorldRenderer</c> class in game memory.
+    /// </summary>
     public class WorldRenderer : GameClass
     {
         [QueriedNestedClass] // WorldRenderer->WorldCamera
@@ -124,6 +147,10 @@ namespace TheLeftExit.Growtopia.ObjectModel
         private static bool WorldCameraInitialized;
     }
 
+    /// <summary>
+    /// <c>WorldCamera</c> class in game memory.<br/>
+    /// Contains camera position and zoom, used in mapping blocks to screen position.
+    /// </summary>
     public class WorldCamera : GameClass
     {
         public PointF CameraPosition => new PointF(Handle.ReadSingle(Address + 0x10), Handle.ReadSingle(Address + 0x14));
@@ -141,6 +168,10 @@ namespace TheLeftExit.Growtopia.ObjectModel
         public Rectangle MapBlockToScreen(Point p) => MapBlockToScreen(p.X, p.Y);
     }
 
+    /// <summary>
+    /// <c>NetAvatar</c> class in game memory.<br/>
+    /// Contains position and direction of player character.
+    /// </summary>
     public class NetAvatar : GameClass
     {
         public Point Position => new Point((Int32)Handle.ReadSingle(Address + 0x08), (Int32)Handle.ReadSingle(Address + 0x0C));

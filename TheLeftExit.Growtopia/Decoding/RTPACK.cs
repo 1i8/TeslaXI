@@ -13,12 +13,27 @@ namespace TheLeftExit.Growtopia.Decoding
 {
     public static class RTPACK
     {
+        /// <summary>
+        /// Decodes an RTTEX file located at <paramref name="filename"/> to an <see cref="Bitmap"/>.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static Bitmap Decode(String filename)
         {
             using(Stream stream = File.OpenRead(filename))
             {
                 return DecodeStream(stream);
             }
+        }
+
+        /// <summary>
+        /// Decodes an RTTEX file stored in <paramref name="stream"/> to an <see cref="Bitmap"/>.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static Bitmap Decode(Stream stream)
+        {
+            return DecodeStream(stream);
         }
 
         private static Bitmap DecodeStream(Stream stream)

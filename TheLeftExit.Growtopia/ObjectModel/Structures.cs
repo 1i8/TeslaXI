@@ -14,6 +14,9 @@ namespace TheLeftExit.Growtopia.ObjectModel
     // Instead each GameList<T> contains this delegate linking to a constructor of T.
     public delegate T GameStructConstructor<T>(IntPtr handle, Int64 address);
 
+    /// <summary>
+    /// Item slot in player's inventory.
+    /// </summary>
     public readonly struct ItemSlot
     {
         public readonly Int16 ItemID;
@@ -27,6 +30,9 @@ namespace TheLeftExit.Growtopia.ObjectModel
         public static ItemSlot Constructor(IntPtr handle, Int64 address) => new ItemSlot(handle, address);
     }
 
+    /// <summary>
+    /// Dropped item in a world.
+    /// </summary>
     public readonly struct WorldObject
     {
         public readonly PointF Position;
@@ -39,6 +45,9 @@ namespace TheLeftExit.Growtopia.ObjectModel
         public static WorldObject Constructor(IntPtr handle, Int64 address) => new WorldObject(handle, address);
     }
 
+    /// <summary>
+    /// A single world tile.
+    /// </summary>
     public readonly struct WorldTile
     {
         public readonly Int16 Foreground;

@@ -18,6 +18,7 @@ namespace Sandbox
     {
         static void Main(string[] args)
         {
+
             var p = Process.GetProcessesByName("Growtopia").First();
             GrowtopiaGame g = new GrowtopiaGame(p.Id, 0xA04130);
             GameWindow w = new GameWindow(p.Id);

@@ -18,15 +18,24 @@ namespace TheLeftExit.Growtopia.Native
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, UInt32 wParam, UInt32 lParam);
 
-        public static UInt32 MAKELPARAM(int p, int p_2)
-        {
-            return ((uint)((p_2 << 16 | p & 0xFFFF)));
-            // i will make this neater later
-        }
+        private static UInt32 MAKELPARAM(Int32 x, Int32 y) => (UInt32)(y << 16 | x & 0xFFFF);
 
+        /// <summary>
+        /// Sends a key event for <paramref name="key"/> to a window handle <paramref name="handle"/>.
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <param name="key"></param>
+        /// <param name="down"></param>
         public static void SendKey(this IntPtr handle, VK key, bool down) =>
             SendMessage(handle, down ? WM_KEYDOWN : WM_KEYUP, (UInt32)key, 0);
 
+        /// <summary>
+        /// Sends a left mouse button mouse event at (<paramref name="x"/>, <paramref name="y"/>) to a window handle <paramref name="handle"/>.
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <param name="action"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public static void SendMouse(this IntPtr handle, WM action, Int32 x, Int32 y) =>
             SendMessage(handle, (UInt32)action, (UInt32)MK.LBUTTON, MAKELPARAM(x, y));
 
@@ -36,6 +45,11 @@ namespace TheLeftExit.Growtopia.Native
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
 
+        /// <summary>
+        /// Check whether <paramref name="key"/> is down.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public static bool IsKeyDown(this VK key) =>
             (GetAsyncKeyState((Int32)key) & 0x8000) != 0;
     }
