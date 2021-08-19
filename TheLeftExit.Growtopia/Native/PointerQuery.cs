@@ -18,10 +18,17 @@ namespace TheLeftExit.Growtopia.Native
         ScamByRefReturnRef
     }
 
+    /// <summary>
+    /// Function to be used as <see cref="PointerQuery.Condition"/>.<br/>
+    /// (<see cref="IntPtr"/> handle, <see cref="Int64"/> address) => <see cref="bool"/>
+    /// </summary>
+    /// <param name="handle"></param>
+    /// <param name="address"></param>
+    /// <returns></returns>
     public delegate bool PointerQueryCondition(IntPtr handle, Int64 address);
 
     /// <summary>
-    /// Query that searches an address range for structures with a specified RTTI class name.
+    /// Query that searches an address range for addresses matching <see cref="Condition"/>.
     /// </summary>
     public sealed class PointerQuery
     {

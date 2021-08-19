@@ -16,6 +16,7 @@ Simply run `Install-Package TheLeftExit.Growtopia` in your package manager to ad
 ## Credits
  - Huge thanks to the [**TeslaX Discord Server**](https://discord.gg/Px457A4fh4) for its efforts to decode game memory. Feel free to join if you're interested in helping or learning.
  - Thanks to [**0xD3F**](https://github.com/DefaultO) for continued cooperation in reversing the game.
+ - RTTI functionality transcribed from [ReClass.NET](https://github.com/ReClassNET/ReClass.NET/blob/0ee8a4cd6a00e2664f2ef3250a81089c32d69392/ReClass.NET/Memory/RemoteProcess.cs#L190).
  - Decoder for items.dat transcribed from [GrowtopiaNoobs/Growtopia_ItemsDecoder](https://github.com/GrowtopiaNoobs/Growtopia_ItemsDecoder).
  - Decoder for RTTEX files transcribed from [Nenkai/RTPackConverter](https://github.com/Nenkai/RTPackConverter).
  

@@ -14,7 +14,7 @@ using TheLeftExit.Growtopia.Decoding;
 
 namespace TheLeftExit.Itemsplorer
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private readonly String pathToItems = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Growtopia", "cache", "items.dat");
         private readonly String pathToTextures = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Growtopia", "game");
@@ -26,7 +26,7 @@ namespace TheLeftExit.Itemsplorer
 
         private PropertyDescriptor selectedProperty;
 
-        public Form1()
+        public MainForm()
         {
             items = ItemsDAT.Decode(pathToItems);
             finalTextures = new Bitmap[items.Length];
