@@ -45,6 +45,7 @@ namespace TheLeftExit.Growtopia.Native
             for (Int32 i = 0; i < info.Count; i++)
             {
                 res[i] = handle.getBaseClassName64(info.ArrayPointer + 4 * i, info.BaseAddress64);
+                if (res == null) return null;
                 res[i] = undecorateString(res[i]);
             }
             return res;
@@ -59,6 +60,7 @@ namespace TheLeftExit.Growtopia.Native
             if (info.Count == 0)
                 return null;
             String res = handle.getBaseClassName64(info.ArrayPointer, info.BaseAddress64);
+            if (res == null) return null;
             res = undecorateString(res);
             return res;
         }
@@ -73,7 +75,7 @@ namespace TheLeftExit.Growtopia.Native
             if (!handle.ReadInt32(object_locator_ptr + 0x10, out Int32 class_hierarchy_descriptor_offset)) return new BaseClassInfo();
             Int64 class_hierarchy_descriptor_ptr = base_address + class_hierarchy_descriptor_offset;
             if (!handle.ReadInt32(class_hierarchy_descriptor_ptr + 0x08, out Int32 base_class_count)) return new BaseClassInfo();
-            if (base_class_count == 0 || base_class_count > 24) return new BaseClassInfo();
+            if (base_class_count <= 0 || base_class_count > 24) return new BaseClassInfo();
             if (!handle.ReadInt32(class_hierarchy_descriptor_ptr + 0x0C, out Int32 base_class_array_offset)) return new BaseClassInfo();
             Int64 base_class_array_ptr = base_address + base_class_array_offset;
             return new BaseClassInfo { ArrayPointer = base_class_array_ptr, Count = base_class_count, BaseAddress64 = base_address };
@@ -103,6 +105,7 @@ namespace TheLeftExit.Growtopia.Native
             for (Int32 i = 0; i < info.Count; i++)
             {
                 res[i] = handle.getBaseClassName32(info.ArrayPointer + 4 * i);
+                if (res == null) return null;
                 res[i] = undecorateString(res[i]);
             }
             return res;
@@ -117,6 +120,7 @@ namespace TheLeftExit.Growtopia.Native
             if (info.Count == 0)
                 return null;
             String res = handle.getBaseClassName32(info.ArrayPointer);
+            if (res == null) return null;
             res = undecorateString(res);
             return res;
         }
@@ -128,7 +132,7 @@ namespace TheLeftExit.Growtopia.Native
             if (!handle.ReadInt32(struct_addr - 4, out Int32 object_locator_ptr)) return new BaseClassInfo();
             if (!handle.ReadInt32(object_locator_ptr + 0x10, out Int32 class_hierarchy_descriptor_ptr)) return new BaseClassInfo();
             if (!handle.ReadInt32(class_hierarchy_descriptor_ptr + 0x08, out Int32 base_class_count)) return new BaseClassInfo();
-            if (base_class_count == 0 || base_class_count > 24) return new BaseClassInfo();
+            if (base_class_count <= 0 || base_class_count > 24) return new BaseClassInfo();
             if (!handle.ReadInt32(class_hierarchy_descriptor_ptr + 0x0C, out Int32 base_class_array_ptr)) return new BaseClassInfo();
             return new BaseClassInfo { ArrayPointer = base_class_array_ptr, Count = base_class_count };
         }
