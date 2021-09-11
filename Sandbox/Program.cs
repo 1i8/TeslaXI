@@ -12,6 +12,8 @@ using TheLeftExit.TeslaX;
 using System.Collections.Generic;
 using System.Drawing;
 
+using static TheLeftExit.Growtopia.GameConditions;
+
 namespace Sandbox
 {
     class Program
@@ -23,42 +25,51 @@ namespace Sandbox
             GrowtopiaGame g = new GrowtopiaGame(p.Id, 0xA04130);
             GameWindow w = new GameWindow(p.Id);
 
-            HarvestAVerticalRowOfATMsWithRayman(g, w);
+            IntPtr handle = p.Handle;
+            Int64 baseAddress = (Int64)p.MainModule.BaseAddress;
+            Int32 range = p.MainModule.ModuleMemorySize;
+
+            byte?[] ACBsig = {
+                0x0F, 0x29, null, null, null, 0xF3, 0x0F, null,
+                null, null, null, null, null, 0xF3, 0x0F, null,
+                null, 0xE8, null, null, null, null, 0x48, 0x8B,
+                null, 0xE8, null, null, null, null, 0x8B, 0xC8 };
+
+            PointerQuery ACBQuery = new PointerQuery
+            {
+                Condition = AOB(ACBsig),
+                Range = range,
+                Step = 0x1,
+                Kind = ScanType.ScanByValue
+            };
+
+            PointerQuery FirstJneBeforeACBQuery = new PointerQuery
+            {
+                Condition = AOB(0x76, 0x08),
+                Range = 0x1000,
+                Step = -0x1,
+                Kind = ScanType.ScanByValue
+            };
+
+            PointerQueryResult ACB = ACBQuery.Run(handle, baseAddress);
+            PointerQueryResult Patchable = FirstJneBeforeACBQuery.Run(handle, ACB.Target);
+            String ACBOffset = (Patchable.Target - baseAddress).ToString("X");
+
+            PointerQuery IMEQuery = new PointerQuery
+            {
+                Condition = AOB(0x75, 0x08, 0x85, 0xC9, 0x0F, 0x85),
+                Range = range,
+                Step = 0x01,
+                Kind = ScanType.ScanByValue
+            };
+
+            PointerQueryResult IME = IMEQuery.Run(handle, baseAddress);
+            String IMEOffset = IME.Offset.ToString("X");
+
+            // It's slow, but it gets the job done.
+
+            ;
         }
 
-        // My personal ATM harvester, don't mind it here.
-        static void HarvestAVerticalRowOfATMsWithRayman(GrowtopiaGame g, GameWindow w)
-        {
-            while (g.App.GameLogicComponent.NetAvatar.Position.Y > 32)
-            {
-                bool toPunchLeft = false, toPunchRight = false;
-                WorldCamera cam = g.App.GameLogicComponent.WorldRenderer.WorldCamera;
-                Point pos = g.App.GameLogicComponent.NetAvatar.Position;
-                pos = new Point(pos.X / 32, pos.Y / 32);
-                for (int i = 1; i <= 3; i++)
-                {
-                    if (g.App.GameLogicComponent.World.WorldTileMap[pos.X + i, pos.Y].TicksPassed >= 22 * 60 * 60)
-                        toPunchRight = true;
-                    if (g.App.GameLogicComponent.World.WorldTileMap[pos.X - i, pos.Y].TicksPassed >= 22 * 60 * 60)
-                        toPunchLeft = true;
-                }
-                if (toPunchLeft)
-                {
-                    Point lbp = cam.MapBlockToScreen(pos.X - 1, pos.Y).Location;
-                    lbp.Offset((Int32)(cam.ZoomFactor * 16), (Int32)(cam.ZoomFactor * 16));
-                    w.MouseClick(lbp.X, lbp.Y, 100);
-                    Thread.Sleep(250);
-                }
-                if (toPunchRight)
-                {
-                    Point lbp = cam.MapBlockToScreen(pos.X + 1, pos.Y).Location;
-                    lbp.Offset((Int32)(cam.ZoomFactor * 16), (Int32)(cam.ZoomFactor * 16));
-                    w.MouseClick(lbp.X, lbp.Y, 100);
-                    Thread.Sleep(250);
-                }
-                w.KeyPress(VK.W, 100);
-                Thread.Sleep(400);
-            }
-        }
     }
 }

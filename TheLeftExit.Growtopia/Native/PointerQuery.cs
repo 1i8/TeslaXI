@@ -37,11 +37,11 @@ namespace TheLeftExit.Growtopia.Native
         /// </summary>
         public PointerQueryCondition Condition { get; init; }
         /// <summary>
-        /// Maximum offset to search in.
+        /// Maximum offset to search in. 
         /// </summary>
         public Int32 Range { get; init; }
         /// <summary>
-        /// Intervals to check addresses at.
+        /// Intervals to check addresses at. To scan backward, set this to negative, but keep <see cref="Range"/> positive.
         /// </summary>
         public Int32 Step { get; init; } = 4;
         /// <summary>
@@ -69,7 +69,7 @@ namespace TheLeftExit.Growtopia.Native
                 };
 
             // Scanning given range.
-            for (Int64 i = source; i <= source + Range; i += Step)
+            for (Int64 i = source; Math.Abs(i - source) <= Range; i += Step)
             {
                 if (Condition(handle, getScan(i)))
                     return new PointerQueryResult()

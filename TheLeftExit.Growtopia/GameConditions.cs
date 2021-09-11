@@ -29,5 +29,14 @@ namespace TheLeftExit.Growtopia
 
         public static PointerQueryCondition RTTI(String name) =>
             (IntPtr h, Int64 a) => h.GetRTTIClassName64(a) == name;
+
+        public static PointerQueryCondition AOB(params byte?[] signature) => (IntPtr h, Int64 a) =>
+        {
+            if (!h.ReadBytes(a, signature.Length, out byte[] result)) return false;
+            for (int i = 0; i < signature.Length; i++)
+                if (signature[i].HasValue && signature[i].Value != result[i])
+                    return false;
+            return true;
+        };
     }
 }
