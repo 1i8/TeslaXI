@@ -1,0 +1,9 @@
+﻿OpenProcess
+ReadProcessMemory
+GetHandleInformation
+CloseHandle
+CreateToolhelp32Snapshot
+Toolhelp32ReadProcessMemory
+Module32First
+Module32Next
+UnDecorateSymbolName
