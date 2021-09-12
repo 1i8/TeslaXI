@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TheLeftExit.Growtopia\TheLeftExit.Growtopia.csproj" />
+    <ProjectReference Include="..\TheLeftExit.Growtopia.Decoding\TheLeftExit.Growtopia.Decoding.csproj" />
   </ItemGroup>
 
 </Project>

@@ -28,11 +28,11 @@ namespace Sandbox {
             PointerQuery appQuery = new PointerQuery(RTTI("App"), 0x1200000, 0x08);
             PointerQuery glcQuery = new PointerQuery(RTTI("GameLogicComponent"), 0x2000, 0x08);
 
-            PointerQueryResult? app = appQuery.Run(memory, (UInt64)gt.MainModule.BaseAddress); // Scanning at Growtopia.exe
+            PointerQueryResult? app = appQuery.GetResult(memory, (UInt64)gt.MainModule.BaseAddress); // Scanning at Growtopia.exe
             if (!app.HasValue) throw null;
             if (!memory.TryRead<UInt64>(app.Value.Target, out UInt64 appAddress)) throw null; // Getting value address of App at the heap from its reference at Growtopia.exe
 
-            PointerQueryResult? glc = glcQuery.Run(memory, appAddress); // Scanning at App
+            PointerQueryResult? glc = glcQuery.GetResult(memory, appAddress); // Scanning at App
             if (!glc.HasValue) throw null;
 
             Console.WriteLine(app.Value.Offset.ToString("X"));

@@ -23,6 +23,8 @@ Simply run `Install-Package TheLeftExit.Growtopia` in your package manager to ad
 This project is [unlicensed](https://unlicense.org/). Feel free to use any parts of it in your own projects.
 
 ## Current progress
+**The project is currently being restructured (it's like the fifth time), so the stuff below is no longer relevant!**  
+
 Done:
  - Memory reading/querying API (`TheLeftExit.Growtopia.Native`)
  - Transcription of Growtopia's object model into C# (`TheLeftExit.Growtopia.ObjectModel` namespace - all you'd have to do is create an instance of `Growtopia` and follow IntelliSense)
