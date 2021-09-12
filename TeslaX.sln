@@ -12,9 +12,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.Itemsplorer", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.csproj", "{AE6D148A-3D0E-4987-8C56-9A6370B2D298}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.StructureCrawler", "Demos\TheLeftExit.StructureCrawler\TheLeftExit.StructureCrawler.csproj", "{4618CEC9-6799-44B3-B59C-BA4B24F948AE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheLeftExit.Memory", "TheLeftExit.Memory\TheLeftExit.Memory.csproj", "{E9777383-373B-4A13-B3FB-0E268E6CEF92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.Memory", "TheLeftExit.Memory\TheLeftExit.Memory.csproj", "{E9777383-373B-4A13-B3FB-0E268E6CEF92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,10 +40,6 @@ Global
 		{AE6D148A-3D0E-4987-8C56-9A6370B2D298}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE6D148A-3D0E-4987-8C56-9A6370B2D298}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE6D148A-3D0E-4987-8C56-9A6370B2D298}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4618CEC9-6799-44B3-B59C-BA4B24F948AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4618CEC9-6799-44B3-B59C-BA4B24F948AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4618CEC9-6799-44B3-B59C-BA4B24F948AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4618CEC9-6799-44B3-B59C-BA4B24F948AE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9777383-373B-4A13-B3FB-0E268E6CEF92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9777383-373B-4A13-B3FB-0E268E6CEF92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9777383-373B-4A13-B3FB-0E268E6CEF92}.Release|Any CPU.ActiveCfg = Release|Any CPU

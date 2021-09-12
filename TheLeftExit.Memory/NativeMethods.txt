@@ -8,3 +8,4 @@ Module32First
 Module32Next
 VirtualQueryEx
 UnDecorateSymbolName
+MEMORY_BASIC_INFORMATION

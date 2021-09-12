@@ -4,63 +4,59 @@ using System.Runtime.CompilerServices;
 using TheLeftExit.Memory.Sources;
 
 namespace TheLeftExit.Memory.Queries {
-    public enum PointerQueryScanType {
-        ScanByValue,
-        ScanByRefReturnValue,
-        ScamByRefReturnRef
-    }
-
-    public enum PointerQueryScanDirection {
-        Forward,
-        Backward
-    }
-
-    public delegate bool PointerQueryCondition(MemorySource memorySource, UInt64 address);
-
     public class PointerQuery {
-        public PointerQueryCondition Condition { get; init; }
-        public UInt32 Range { get; init; }
-        public UInt32 Step { get; init; } = 4;
-        public UInt32 Default { get; set; } = 0;
-        public PointerQueryScanType Kind { get; init; } = PointerQueryScanType.ScanByRefReturnValue;
-        public PointerQueryScanDirection Direction { get; init; } = PointerQueryScanDirection.Forward;
+        public PointerQueryCondition condition;
+        public UInt32 range;
+        public SByte step;
 
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)] // Does this do anything? I certainly hope so.
-        public PointerQueryResult Run(MemorySource memorySource, UInt64 baseAddress) {
-            // Checking cached offset if provided.
-            UInt64 defaultAddress = baseAddress + Default;
-            if (Condition(memorySource, getScannedAddress(memorySource, defaultAddress)))
-                return new PointerQueryResult() {
-                    Target = getReturnAddress(memorySource, defaultAddress),
-                    Offset = Default
-                };
-
-            // Scanning given range.
-            for (UInt32 offset = 0; offset <= Range; offset += Step) {
-                UInt64 targetAddress = Direction == PointerQueryScanDirection.Forward ? baseAddress + offset : baseAddress - offset;
-                if (Condition(memorySource, getScannedAddress(memorySource, targetAddress)))
-                    return new PointerQueryResult() {
-                        Target = getReturnAddress(memorySource, targetAddress),
-                        Offset = offset
-                    };
-            }
-
-            // Uh oh.
-            return PointerQueryResult.None;
+        public PointerQuery(PointerQueryCondition queryCondition, UInt32 maxOffset, SByte scanStep) {
+            if (queryCondition == null || scanStep == 0)
+                throw new ArgumentException();
+            condition = queryCondition;
+            range = maxOffset;
+            step = scanStep;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private UInt64 getScannedAddress(MemorySource source, UInt64 origin) =>
-            Kind == PointerQueryScanType.ScanByValue ? origin : source.Read<UInt64>(origin) ?? 0;
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        public PointerQueryResult? Run(MemorySource source, UInt64 baseAddress) {
+            Byte stepAbs = (Byte)Math.Abs(step);
+            bool scanForward = step > 0;
+            for (UInt32 offset = 0; offset <= range; offset += stepAbs) {
+                UInt64 targetAddress = scanForward ? baseAddress + offset : baseAddress - offset;
+                PointerQueryConditionResult result = condition(source, targetAddress);
+                if (result == PointerQueryConditionResult.Return)
+                    return new PointerQueryResult() {
+                        Target = targetAddress,
+                        Offset = offset
+                    };
+                else if (result == PointerQueryConditionResult.Break)
+                    break;
+            }
+            return null;
+        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private UInt64 getReturnAddress(MemorySource source, UInt64 origin) =>
-            Kind == PointerQueryScanType.ScamByRefReturnRef ? source.Read<UInt64>(origin) ?? 0 : origin;
+        public PointerQueryResult? Result { get; private set; }
+
+        public PointerQueryResult? GetResult(MemorySource source, UInt64 baseAddress, bool forceRun = false, bool updateResult = true) {
+            if (forceRun || !Result.HasValue) {
+                PointerQueryResult? result = Run(source, baseAddress);
+                if (updateResult || !Result.HasValue)
+                    Result = result;
+            }
+            return Result;
+        }
+    }
+
+    public delegate PointerQueryConditionResult PointerQueryCondition(MemorySource memorySource, UInt64 address);
+
+    public enum PointerQueryConditionResult {
+        Continue,
+        Return,
+        Break
     }
 
     public struct PointerQueryResult {
-        public UInt64 Target;
-        public Int64 Offset;
-        public static readonly PointerQueryResult None = new();
+        public UInt64 Target { get; init; }
+        public Int64 Offset { get; init; }
     }
 }
