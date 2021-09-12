@@ -13,7 +13,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Threading;
 
-namespace TheLeftExit.Memory {
+namespace TheLeftExit.Memory.Sources {
     public class ProcessMemory : MemorySource, IDisposable {
         private HANDLE handle;
 

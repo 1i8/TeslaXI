@@ -5,18 +5,18 @@ using System.Text;
 using System.IO;
 using System.Threading;
 
-using TheLeftExit.Growtopia;
+
 using TheLeftExit.Growtopia.ObjectModel;
-using TheLeftExit.Growtopia.Native;
 using TheLeftExit.TeslaX;
 using System.Collections.Generic;
 using System.Drawing;
 
-using static TheLeftExit.Growtopia.GameConditions;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-using TheLeftExit.Memory;
+using TheLeftExit.Memory.Queries;
+using TheLeftExit.Memory.RTTI;
+using TheLeftExit.Memory.Sources;
 
 namespace Sandbox {
     class Program {
@@ -25,12 +25,25 @@ namespace Sandbox {
 
             ProcessMemory memory = new ProcessMemory((uint)gt.Id);
 
-            ulong appAddress = (ulong)new GrowtopiaGame(gt.Id).App.Address;
+            PointerQuery appQuery = new PointerQuery {
+                Condition = RTTI("App"),
+                Direction = PointerQueryScanDirection.Forward,
+                Kind = PointerQueryScanType.ScamByRefReturnRef,
+                Range = (UInt32)gt.MainModule.ModuleMemorySize,
+                Step = 0x04
+            };
 
-            string[] names = TheLeftExit.Memory.RTTIMethods.GetRTTIClassNames64(memory, appAddress);
+            Stopwatch sw = Stopwatch.StartNew();
+            PointerQueryResult pqr = appQuery.Run(memory, (UInt64)gt.MainModule.BaseAddress);
+            sw.Stop();
 
-            ;
+            Console.WriteLine(pqr.Offset.ToString("X"));
+            Console.WriteLine(sw.Elapsed);
+            Console.ReadKey();
         }
+
+        public static PointerQueryCondition RTTI(string name) => (MemorySource memorySource, UInt64 addr) =>
+            memorySource.GetRTTIClassNames64(addr)?.Contains(name) ?? false;
 
         static unsafe T Cast<T>(Span<byte> source) where T : unmanaged {
             fixed (byte* bytePtr = &source.GetPinnableReference())

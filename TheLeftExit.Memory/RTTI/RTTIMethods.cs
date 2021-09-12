@@ -9,18 +9,23 @@ using System.Threading.Tasks;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
-namespace TheLeftExit.Memory {
+using TheLeftExit.Memory.Sources;
+
+namespace TheLeftExit.Memory.RTTI {
     public static class RTTIMethods {
+        private static unsafe void* ToPointer<T>(this Span<T> span) where T: unmanaged =>
+            Unsafe.AsPointer(ref MemoryMarshal.GetReference(span));
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         private static unsafe string undecorate(Span<byte> sourceBytes, bool is32bit) {
             Span<byte> targetBytes = stackalloc byte[60];
-            PCSTR sourceString = new PCSTR((byte*)Unsafe.AsPointer(ref sourceBytes[0]));
-            PSTR targetString = new PSTR((byte*)Unsafe.AsPointer(ref targetBytes[0]));
+            PCSTR sourceString = new PCSTR((byte*)sourceBytes.ToPointer());
+            PSTR targetString = new PSTR((byte*)targetBytes.ToPointer());
             uint len = DbgHelp.UnDecorateSymbolName(sourceString, targetString, 60, is32bit ? 0x1000u : 0x1800u);
             return len != 0 ? Encoding.UTF8.GetString(targetBytes.Slice(0, (int)len)) : null;
         }
 
-        public static string[] GetRTTIClassNames64(MemorySource source, ulong address) {
+        public static string[] GetRTTIClassNames64(this MemorySource source, ulong address) {
             if (!source.TryRead(address, out UInt64 struct_addr)) return null;
             if (!source.TryRead(struct_addr - 0x08, out UInt64 object_locator_ptr)) return null;
             if (!source.TryRead(object_locator_ptr + 0x14, out UInt64 base_offset)) return null;
@@ -48,7 +53,7 @@ namespace TheLeftExit.Memory {
             return result;
         }
 
-        public static string[] GetRTTIClassNames32(MemorySource source, ulong address) {
+        public static string[] GetRTTIClassNames32(this MemorySource source, ulong address) {
             if (!source.TryRead(address, out UInt32 struct_addr)) return null;
             if (!source.TryRead(struct_addr - 0x04, out UInt32 object_locator_ptr)) return null;
             if (!source.TryRead(object_locator_ptr + 0x10, out UInt32 class_hierarchy_descriptor)) return null;

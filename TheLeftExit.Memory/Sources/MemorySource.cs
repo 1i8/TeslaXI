@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheLeftExit.Memory
+namespace TheLeftExit.Memory.Sources
 {
     public abstract class MemorySource {
         public abstract bool ReadBytes(ulong address, nuint count, Span<byte> buffer);

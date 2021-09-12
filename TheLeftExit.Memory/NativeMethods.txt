@@ -6,4 +6,5 @@ CreateToolhelp32Snapshot
 Toolhelp32ReadProcessMemory
 Module32First
 Module32Next
+VirtualQueryEx
 UnDecorateSymbolName

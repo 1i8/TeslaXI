@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TheLeftExit.Growtopia\TheLeftExit.Growtopia.csproj" />
-    <ProjectReference Include="..\TheLeftExit.Native\TheLeftExit.Memory.csproj" />
+    <ProjectReference Include="..\TheLeftExit.Memory\TheLeftExit.Memory.csproj" />
     <ProjectReference Include="..\TheLeftExit.TeslaX\TheLeftExit.TeslaX.csproj" />
   </ItemGroup>
 
