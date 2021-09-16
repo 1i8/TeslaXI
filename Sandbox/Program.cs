@@ -19,6 +19,9 @@ using TheLeftExit.Growtopia.ObjectModel;
 namespace Sandbox {
     class Program {
         static void Main(string[] args) {
+            //new GrowtopiaGame();
+            Int64? testOffset = ObjectModelHelper.GetOffset(typeof(GrowtopiaGame), "App");
+
             Process gt = Process.GetProcessesByName("Growtopia").First();
 
             ProcessMemory memory = new ProcessMemory((uint)gt.Id);
