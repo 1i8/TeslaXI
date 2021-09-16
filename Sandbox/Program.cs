@@ -19,21 +19,15 @@ using TheLeftExit.Growtopia.ObjectModel;
 namespace Sandbox {
     class Program {
         static void Main(string[] args) {
-            //new GrowtopiaGame();
-            Int64? testOffset = ObjectModelHelper.GetOffset(typeof(GrowtopiaGame), "App");
-
             Process gt = Process.GetProcessesByName("Growtopia").First();
 
             ProcessMemory memory = new ProcessMemory((uint)gt.Id);
 
             GrowtopiaGame game = new GrowtopiaGame(memory, (ulong)gt.MainModule.BaseAddress);
 
-            NetAvatar netAvatar = game.App.GameLogicComponent.NetAvatar;
+            var myStruct = game.App.GameLogicComponent.World.WorldObjectMap.DroppedItems.ToList();
 
-            while (true) {
-                Console.WriteLine(netAvatar.Position);
-                Thread.Sleep(10);
-            }
+            ;
         }
     }
 }

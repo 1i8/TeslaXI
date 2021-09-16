@@ -67,8 +67,17 @@ namespace TheLeftExit.Memory.Queries {
     public delegate PointerQueryConditionResult PointerQueryCondition(MemorySource memorySource, UInt64 address);
 
     public enum PointerQueryConditionResult {
+        /// <summary>
+        /// Treat the result as not matching the condition, continue scanning.
+        /// </summary>
         Continue,
+        /// <summary>
+        /// Treat the result as matching the condition, return its address and offset.
+        /// </summary>
         Return,
+        /// <summary>
+        /// Interrupt the scan, return null.
+        /// </summary>
         Break
     }
 

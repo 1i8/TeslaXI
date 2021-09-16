@@ -8,41 +8,20 @@ using TheLeftExit.Memory.Queries;
 using TheLeftExit.Memory.RTTI;
 using TheLeftExit.Memory.Sources;
 
-namespace TheLeftExit.Growtopia.ObjectModel {
-    public static class ObjectModelHelper {
-        public static Int64? GetOffset(Type parentType, string propertyName) {
-            PropertyInfo property = parentType.GetRuntimeProperty(propertyName);
-            if (property == null)
-                return null;
-            PointerQueryAttribute attribute = property.GetCustomAttribute<PointerQueryAttribute>();
-            if (attribute == null)
-                return null;
-            PointerQuery query = parentType.GetRuntimeFields().First(x => x.Name == attribute.PointerQueryFieldName).GetValue(null) as PointerQuery;
-            return query.Offset;
-        }
-        internal static PointerQueryCondition RTTIByRef(string name) => (MemorySource source, UInt64 addr) => {
-            if (!source.TryRead(addr, out UInt64 target))
-                return PointerQueryConditionResult.Break;
-            if (source.GetRTTIClassNames64(target)?.Contains(name) ?? false)
-                return PointerQueryConditionResult.Return;
-            return PointerQueryConditionResult.Continue;
-        };
+namespace TheLeftExit.Growtopia.ObjectModel { 
+    internal class ObjectModelException : ApplicationException {
+        internal ObjectModelException() : base() { }
+        internal ObjectModelException(Type sourceClass, Type targetClass) : base($"Could not link {sourceClass.Name}->{targetClass.Name}.") { }
+    }
 
-        internal static PointerQueryCondition RTTIByVal(string name) => (MemorySource source, UInt64 addr) => {
-            if (!source.TryRead<Byte>(addr, out _))  // Dummy-read for an out-of-bounds check
-                return PointerQueryConditionResult.Break;
-            if (source.GetRTTIClassNames64(addr)?.Contains(name) ?? false)
-                return PointerQueryConditionResult.Return;
-            return PointerQueryConditionResult.Continue;
-        };
-
+    internal static class ObjectModelHelper {
         internal static UInt64 GetResultByRef(this PointerQuery query, MemorySource source, UInt64 baseAddress) {
             PointerQueryResult? result = query.GetResult(source, baseAddress);
             if (!result.HasValue || !source.TryRead(result.Value.Target, out UInt64 targetAddress))
                 throw new ObjectModelException();
             return targetAddress;
         }
-
+        
         internal static UInt64 GetResultByVal(this PointerQuery query, MemorySource source, UInt64 baseAddress) {
             PointerQueryResult? result = query.GetResult(source, baseAddress);
             if (!result.HasValue)
@@ -55,15 +34,27 @@ namespace TheLeftExit.Growtopia.ObjectModel {
                 throw new ObjectModelException();
             return result;
         }
-    }
 
-    public class ObjectModelException : ApplicationException {
-        internal ObjectModelException() : base() { }
-        internal ObjectModelException(Type sourceClass, Type targetClass) : base($"Could not link {sourceClass.Name}->{targetClass.Name}.") { }
-    }
+        internal static PointerQueryConditionResult IsInventory(MemorySource source, UInt64 address) {
+            if (!source.TryRead(address, out UInt64 header))
+                return PointerQueryConditionResult.Break;
+            if (source.TryRead(header, out UInt64 item1) &&
+                source.TryRead(item1, out UInt64 item2) &&
+                source.TryRead(item1 + 0x10, out UInt32 itemInfo1) &&
+                source.TryRead(item2 + 0x10, out UInt32 itemInfo2) &&
+                (itemInfo1 == 0x00010012 && itemInfo2 == 0x00010020))
+                return PointerQueryConditionResult.Return;
+            return PointerQueryConditionResult.Continue;
+        }
 
-    internal class PointerQueryAttribute : Attribute {
-        public string PointerQueryFieldName { get; }
-        public PointerQueryAttribute(string fieldName) : base() { PointerQueryFieldName = fieldName; }
+        internal static PointerQueryConditionResult IsDoubleLinkedList(MemorySource source, UInt64 address) {
+            if (!source.TryRead(address, out UInt64 header))
+                return PointerQueryConditionResult.Break;
+            if (source.TryRead(header, out UInt64 item1) &&
+                source.TryRead(item1 + 0x08, out UInt64 loopback) &&
+                (header == loopback))
+                return PointerQueryConditionResult.Return;
+            return PointerQueryConditionResult.Continue;
+        }
     }
 }

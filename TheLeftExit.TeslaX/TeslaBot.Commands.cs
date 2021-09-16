@@ -25,7 +25,7 @@ namespace TheLeftExit.TeslaX
                     log("Detected: nothing.");
                     continue;
                 }
-                Int32 distance = PunchingDistance(netAvatar.Position.X, info.X, netAvatar.FacingLeft);
+                Int32 distance = PunchingDistance((int)netAvatar.Position.X, info.X, netAvatar.FacingLeft);
                 log($"Detected: {WorldTileToString(info.Tile)} (distance: {distance}).");
             }
         }
@@ -46,7 +46,7 @@ namespace TheLeftExit.TeslaX
                     log("Finished: no blocks in range");
                     break;
                 }
-                Int32 distance = PunchingDistance(netAvatar.Position.X, info.X, netAvatar.FacingLeft);
+                Int32 distance = PunchingDistance((int)netAvatar.Position.X, info.X, netAvatar.FacingLeft);
                 if(distance > Range)
                 {
                     log("Finished: no blocks in range");

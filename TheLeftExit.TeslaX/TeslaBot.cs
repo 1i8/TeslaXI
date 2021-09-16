@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using TheLeftExit.Growtopia;
 using TheLeftExit.Growtopia.Decoding;
 using TheLeftExit.Growtopia.ObjectModel;
+using TheLeftExit.Memory.Sources;
 
 namespace TheLeftExit.TeslaX
 {
@@ -16,7 +18,8 @@ namespace TheLeftExit.TeslaX
 
         public TeslaBot(Int32 processId)
         {
-            game = new GrowtopiaGame(processId);
+            using(Process p = Process.GetProcessById(processId))
+                game = new GrowtopiaGame(new ProcessMemory((uint)processId), (ulong)p.MainModule.BaseAddress);
             window = new GameWindow(processId);
 
             String pathToItems = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Growtopia", "cache", "items.dat");

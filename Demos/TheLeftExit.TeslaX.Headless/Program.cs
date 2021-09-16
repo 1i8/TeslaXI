@@ -27,7 +27,6 @@ namespace TheLeftExit.TeslaX.Headless
             Console.WriteLine("TeslaXI console demo. Initializing...");
             var p = Process.GetProcessesByName("Growtopia").First();
             IntPtr wh = p.MainWindowHandle;
-            GrowtopiaGame g = new GrowtopiaGame(p.Id, 0xA04130);
             TeslaBot bot = new TeslaBot(p.Id);
             Console.WriteLine("TeslaBot instantiated. Please check Growtopia's window title for instructions.");
             Console.WriteLine("To properly close the app, press Ctrl+C while the bot isn't running.");
@@ -55,7 +54,7 @@ namespace TheLeftExit.TeslaX.Headless
                 {
                     tile = bot.GetTileAhead();
                 }
-                catch (ProcessMemoryException e)
+                catch (Exception e) // ObjectModelException isn't displaying the classes affected yet, so this won't be very informative.
                 {
                     wh.SetWindowText(e.Message);
                     continue;
