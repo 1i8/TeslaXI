@@ -15,7 +15,7 @@ using Windows.Win32.System.Threading;
 
 namespace TheLeftExit.Memory.Sources {
     public class ProcessMemory : MemorySource, IDisposable {
-        private HANDLE handle;
+        protected HANDLE handle;
 
         // TODO: add checks on initialization, implement IsOpen property
 
@@ -24,14 +24,14 @@ namespace TheLeftExit.Memory.Sources {
         }
 
         public override unsafe bool ReadBytes(ulong address, nuint count, Span<byte> buffer) {
-            fixed(byte* p = &buffer.GetPinnableReference())
+            fixed(byte* p = buffer)
                 return Kernel32.ReadProcessMemory(handle, (void*)address, p, count);
         }
 
-        private HANDLE OpenProcess(uint id) =>
-            Kernel32.OpenProcess(PROCESS_ACCESS_RIGHTS.PROCESS_VM_READ, false, id);
+        protected HANDLE OpenProcess(uint id) =>
+            Kernel32.OpenProcess(PROCESS_ACCESS_RIGHTS.PROCESS_ALL_ACCESS, false, id);
 
-        private BOOL CloseProcess(HANDLE pHandle) =>
+        protected BOOL CloseProcess(HANDLE pHandle) =>
             Kernel32.CloseHandle(pHandle);
 
         public void Dispose() {

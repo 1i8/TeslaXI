@@ -13,9 +13,9 @@ namespace TheLeftExit.Memory.Queries {
             if (!source.ReadBytes(addr, (nuint)buffer.Length, buffer))
                 return PointerQueryConditionResult.Break;
             for (int i = 0; i < buffer.Length; i++)
-                if (!pattern[i].HasValue && pattern[i] == buffer[i])
-                    return PointerQueryConditionResult.Return;
-            return PointerQueryConditionResult.Continue;
+                if (pattern[i].HasValue && pattern[i] != buffer[i])
+                    return PointerQueryConditionResult.Continue;
+            return PointerQueryConditionResult.Return;
         };
 
         public static PointerQueryCondition RTTIByRef(string name) => (MemorySource source, UInt64 addr) => {
