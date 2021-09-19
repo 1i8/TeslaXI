@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TheLeftExit.Growtopia.ObjectModel\TheLeftExit.Growtopia.ObjectModel.csproj" />
     <ProjectReference Include="..\TheLeftExit.Memory\TheLeftExit.Memory.csproj" />
   </ItemGroup>
 

@@ -12,7 +12,7 @@ namespace TheLeftExit.LibraryDemo {
             while(!enterKeyPressed) {
                 Console.Clear();
                 Console.WriteLine("Select a demo with LEFT/RIGHT arrow keys, then press ENTER to start:");
-                Console.WriteLine($"{selectedDemo + 1}: {demoList[selectedDemo].Name}");
+                Console.WriteLine($"{selectedDemo + 1}: {demoList[selectedDemo].GetCustomAttribute<LibraryDemoAttribute>().Description}");
                 ConsoleKeyInfo key = Console.ReadKey();
                 switch (key.Key) {
                     case ConsoleKey.LeftArrow:
@@ -38,6 +38,9 @@ namespace TheLeftExit.LibraryDemo {
             Console.ReadKey();
         }
 
-        private class LibraryDemoAttribute : Attribute { }
+        private class LibraryDemoAttribute : Attribute {
+            public string Description { get; set; }
+            public LibraryDemoAttribute(string s) : base() { Description = s; }
+        }
     }
 }
