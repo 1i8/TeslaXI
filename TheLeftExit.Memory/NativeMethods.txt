@@ -9,3 +9,4 @@ Module32Next
 VirtualQueryEx
 UnDecorateSymbolName
 MEMORY_BASIC_INFORMATION
+VirtualProtectEx

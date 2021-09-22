@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.Memory", "TheLe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.Growtopia.ObjectModel", "TheLeftExit.Growtopia.ObjectModel\TheLeftExit.Growtopia.ObjectModel.csproj", "{E2412C2F-2D91-4447-BCF3-3AA48D484882}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheLeftExit.LibraryDemo", "TheLeftExit.LibraryDemo\TheLeftExit.LibraryDemo.csproj", "{B786609C-E5A8-483E-90D6-1A2D87EF55D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheLeftExit.LibraryDemo", "TheLeftExit.LibraryDemo\TheLeftExit.LibraryDemo.csproj", "{B786609C-E5A8-483E-90D6-1A2D87EF55D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,14 +72,11 @@ Global
 		{E2412C2F-2D91-4447-BCF3-3AA48D484882}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E2412C2F-2D91-4447-BCF3-3AA48D484882}.Release|x64.ActiveCfg = Release|x64
 		{E2412C2F-2D91-4447-BCF3-3AA48D484882}.Release|x64.Build.0 = Release|x64
-		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Debug|x64.Build.0 = Debug|Any CPU
-		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Release|x64.ActiveCfg = Release|Any CPU
-		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Release|x64.Build.0 = Release|Any CPU
+		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Debug|x64.ActiveCfg = Debug|x64
+		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Debug|x64.Build.0 = Debug|x64
+		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Release|Any CPU.ActiveCfg = Release|x64
+		{B786609C-E5A8-483E-90D6-1A2D87EF55D2}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

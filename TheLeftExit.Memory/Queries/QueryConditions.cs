@@ -7,7 +7,7 @@ using TheLeftExit.Memory.RTTI;
 using TheLeftExit.Memory.Sources;
 
 namespace TheLeftExit.Memory.Queries {
-    public class Conditions {
+    public static class Conditions {
         public static PointerQueryCondition AOB(params Byte?[] pattern) => (MemorySource source, UInt64 addr) => {
             Span<Byte> buffer = stackalloc Byte[pattern.Length];
             if (!source.ReadBytes(addr, (nuint)buffer.Length, buffer))
@@ -32,6 +32,11 @@ namespace TheLeftExit.Memory.Queries {
             if (source.GetRTTIClassNames64(addr)?.Contains(name) ?? false)
                 return PointerQueryConditionResult.Return;
             return PointerQueryConditionResult.Continue;
+        };
+
+        public static PointerQueryCondition Forgive(this PointerQueryCondition condition) => (MemorySource source, UInt64 addr) => {
+            PointerQueryConditionResult res = condition(source, addr);
+            return res == PointerQueryConditionResult.Break ? PointerQueryConditionResult.Continue : res;
         };
     }
 }

@@ -22,7 +22,7 @@ namespace TheLeftExit.Memory.Sources
                 result = Unsafe.As<byte, T>(ref buffer.GetPinnableReference());
                 return true;
             } else {
-                result = default(T);
+                Unsafe.SkipInit(out result);
                 return false;
             }
         }

@@ -12,8 +12,8 @@ using TheLeftExit.Growtopia.ObjectModel;
 
 namespace TheLeftExit.LibraryDemo {
     partial class Program {
-        [LibraryDemo("Tool/demo: Get the App/GLC/NetAvatar addresses and offsets (TheLeftExit.Growtopia.ObjectModel)")]
-        public static void GettingClassInfo() {
+        [LibraryDemo("Demo: Get an offset for a value located in GameLogicComponent")]
+        public static void GettingArbitraryOffset() {
             Console.WriteLine("Retrieving Growtopia process and getting its information...");
             Process p = Process.GetProcessesByName("Growtopia").Single();
 
@@ -27,14 +27,24 @@ namespace TheLeftExit.LibraryDemo {
             GrowtopiaGame game = new GrowtopiaGame(processMemory, baseAddress);
             App app = game.App;
             GameLogicComponent glc = app.GameLogicComponent;
-            NetAvatar netAvatar = glc.NetAvatar;
-            var inventory = glc.Inventory;
-            ;
 
-            Console.WriteLine();
-            Console.WriteLine($"App: {app.Address:X} | +{GrowtopiaGame.AppQuery.Offset:X}");
-            Console.WriteLine($"GLC: {glc.Address:X} | +{App.GameLogicComponentQuery.Offset:X}");
-            Console.WriteLine($"NetAvatar: {netAvatar.Address:X} | +{GameLogicComponent.NetAvatarQuery.Offset:X}");
+            Console.Write("Enter an integer value to search: ");
+            int value = int.Parse(Console.ReadLine());
+
+            PointerQueryCondition SeekValue = (source, address) => {
+                if (source.Read<int>(address) == value)
+                    return PointerQueryConditionResult.Return;
+                return PointerQueryConditionResult.Continue;
+            };
+
+            PointerQuery query = new PointerQuery(SeekValue, 0x800, 0x8);
+
+            var result = query.GetResult(processMemory, glc.Address);
+
+            if (result.HasValue) {
+                Console.WriteLine($"Found offset: 0x{result.Value.Offset:X}");
+            } else
+                Console.WriteLine("Nothing found.");
         }
     }
 }

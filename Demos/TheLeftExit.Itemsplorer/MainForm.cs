@@ -18,18 +18,14 @@ namespace TheLeftExit.Itemsplorer
     {
         private readonly String pathToItems = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Growtopia", "cache", "items.dat");
         private readonly String pathToTextures = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Growtopia", "game");
-        private readonly Int32 maxres = 100;
 
         private ItemDefinition[] items;
-        private Dictionary<String, Bitmap> textureFileCache = new();
-        private Bitmap[] finalTextures;
 
         private PropertyDescriptor selectedProperty;
 
         public MainForm()
         {
             items = ItemsDAT.Decode(pathToItems);
-            finalTextures = new Bitmap[items.Length];
 
             InitializeComponent();
             this.MinimumSize = new Size(propertyGrid1.Width + 40, 200);
@@ -71,86 +67,53 @@ namespace TheLeftExit.Itemsplorer
             // 2. Reporting count and trimming if necesary.
             bool includeSeeds = toolStripMenuItem1.Checked;
             ItemDefinition[] res = sres.Where(x => includeSeeds || (x.ItemID & 1) == 0).ToArray();
-            if (res.Length <= maxres)
-                toolStripStatusLabel1.Text = $"{res.Length} items found.";
-            else
-            {
-                toolStripStatusLabel1.Text = $"{res.Length} items found (showing first {maxres}).";
-                res = res.Take(maxres).ToArray();
-            }
 
             // 3. Populating ListView.
             //listView1.LargeImageList?.Dispose();
             listView1.Clear();
 
-            ImageList ilist = new();
-            ilist.ImageSize = new(32, 32);
-
-            foreach (ItemDefinition item in res)
-            {
-                ilist.Images.Add(item.Name, GetTexture(item));
-            }
-            listView1.LargeImageList = ilist;
             foreach (ItemDefinition item in res)
             {
                 listView1.Items.Add(item.Name, item.Name);
             }
         }
 
-        private Bitmap GetTextureFile(String name)
-        {
-            //return RTPACK.Decode(Path.Combine(pathToTextures, name));
-            if (!textureFileCache.ContainsKey(name))
-            {
-                textureFileCache.Add(name, RTPACK.Decode(Path.Combine(pathToTextures, name)));
-            }
-            try { textureFileCache[name].GetHbitmap(); } catch { textureFileCache[name] = RTPACK.Decode(Path.Combine(pathToTextures, name)); }
-            return textureFileCache[name];
-        }
-        private Bitmap GetTexture(ItemDefinition item)
-        {
-            if ((item.ItemID & 1) == 1)
-                return new Bitmap(32, 32);
-            if (finalTextures[item.ItemID] == null)
-            {
-
-                Int32 x, y;
-                switch (item.SpreadType)
-                {
-                    case 3:
-                    case 7:
-                    case 8:
-                    case 9:
-                    case 10:
-                        x = item.TextureX + 3;
-                        break;
-                    case 2:
-                    case 4:
-                    case 5:
-                        x = item.TextureX + 4;
-                        break;
-                    default:
-                        x = item.TextureX;
-                        break;
-                }
-                switch (item.SpreadType)
-                {
-                    case 2:
-                    case 5:
-                        y = item.TextureY + 1;
-                        break;
-                    default:
-                        y = item.TextureY;
-                        break;
-                }
-                finalTextures[item.ItemID] = Cut32(GetTextureFile(item.Texture), x, y);//.Clone(new Rectangle(x * 32, y * 32, 32, 32), PixelFormat.Format32bppArgb);
-            }
-            return finalTextures[item.ItemID];
-        }
-
         private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            propertyGrid1.SelectedObject = items.Single(x => x.Name == e.Item.Text);
+            pictureBox1.Image?.Dispose();
+            ItemDefinition item = items.Single(x => x.Name == e.Item.Text);
+            propertyGrid1.SelectedObject = item;
+
+            Int32 x, y;
+            switch (item.SpreadType) {
+                case 3:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                    x = item.TextureX + 3;
+                    break;
+                case 2:
+                case 4:
+                case 5:
+                    x = item.TextureX + 4;
+                    break;
+                default:
+                    x = item.TextureX;
+                    break;
+            }
+            switch (item.SpreadType) {
+                case 2:
+                case 5:
+                    y = item.TextureY + 1;
+                    break;
+                default:
+                    y = item.TextureY;
+                    break;
+            }
+
+            using (Bitmap tileSheet = RTPACK.Decode(Path.Combine(pathToTextures, item.Texture)))
+                pictureBox1.Image = tileSheet.Clone(new Rectangle(x * 32, y * 32, 32, 32), RTPACK.Format);
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -160,34 +123,6 @@ namespace TheLeftExit.Itemsplorer
                 button1.PerformClick();
                 e.Handled = true;
             }
-        }
-
-        private void listView1_DoubleClick(object sender, EventArgs e)
-        {
-            Int32 id = ((ItemDefinition)propertyGrid1.SelectedObject).ItemID;
-
-            SaveFileDialog sfd = new()
-            {
-                Title = $"Save {items[id].Name} sprite",
-                AddExtension = true,
-                DefaultExt = "png",
-                Filter = "PNG image|*.png"
-            };
-
-            DialogResult res = sfd.ShowDialog();
-            if(res == DialogResult.OK)
-                finalTextures[id].Save(sfd.FileName, ImageFormat.Png);
-        }
-
-        public static Bitmap Cut32(Bitmap source, int x, int y)
-        {
-            Bitmap res = new(32, 32);
-
-            for (int i = 0; i < 32; i++)
-                for (int j = 0; j < 32; j++)
-                    res.SetPixel(i, j, source.GetPixel(x * 32 + i, y * 32 + j));
-
-            return res;
         }
     }
 }

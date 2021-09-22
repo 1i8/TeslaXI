@@ -11,7 +11,7 @@ using TheLeftExit.Memory.RTTI;
 
 namespace TheLeftExit.LibraryDemo {
     partial class Program {
-        [LibraryDemo("Get the App offset (TheLeftExit.Memory)")]
+        [LibraryDemo("Demo: Get the App offset (TheLeftExit.Memory)")]
         public static void GettingAppOffset() {
             Console.WriteLine("Retrieving Growtopia process and getting its information...");
             Process p = Process.GetProcessesByName("Growtopia").Single();

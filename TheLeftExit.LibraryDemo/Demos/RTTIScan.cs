@@ -12,7 +12,7 @@ using TheLeftExit.Growtopia.ObjectModel;
 
 namespace TheLeftExit.LibraryDemo {
     partial class Program {
-        [LibraryDemo("Get RTTI class names for an address")]
+        [LibraryDemo("Tool: RTTI scanner (for a specific address)")]
         public static void GettingRTTINames() {
             Console.WriteLine("Retrieving Growtopia process and getting its information...");
             Process p = Process.GetProcessesByName("Growtopia").Single();
